@@ -423,7 +423,7 @@ Chrome 中的进程与分工
 </blockquote>
 <h2 id="页面渲染步骤"><a href="#页面渲染步骤" class="headerlink" title="页面渲染步骤"></a>页面渲染步骤</h2><p>渲染器进程的核心工作是将 HTML、CSS 和 JavaScript 转换为用户可以与之交互的网页，主要步骤如下：</p>
 <h3 id="1-DOM-解析"><a href="#1-DOM-解析" class="headerlink" title="1.DOM 解析 "></a>1.DOM 解析 <em><Parsing></em></h3><p>​		渲染进程解析接收到的HTML数据并转化为DOM对象。</p>
-<h3 id="2-样式计算"><a href="#2-样式计算" class="headerlink" title="2.样式计算 "></a>2.样式计算 <em><Style calculation></em></h3><p>​		主线程根据 CSS 样式选择器计算出的每个DOM元素应具备的具体样式。</p>
+<h3 id="2-样式计算"><a href="#2-样式计算" class="headerlink" title="2.样式计算 "></a>2.样式计算 <em><Stylecalculation></em></h3><p>​		主线程根据 CSS 样式选择器计算出的每个DOM元素应具备的具体样式。</p>
 <h3 id="3-布局"><a href="#3-布局" class="headerlink" title="3.布局 "></a>3.布局 <em><Layout></em></h3><p>​		经过上面的步骤虽然已经知道页面的具体文档结构以及每个节点拥有的样式信息，但仍然不能确定页面最终的样子。布局的过程是计算出每个节点的几何信息。</p>
 <blockquote>
 <p><strong>布局过程中主线程会遍历构建的DOM树，根据DOM节点的计算样式计算出一个布局树（layout tree）</strong></p>
