@@ -24,12 +24,12 @@
 <meta property="og:description" content="解决 Github port 443 : Timed outFailed to connect to github.com port 443 : Timed out 一、问题描述如下图所示，无法 git clone 来自 Github 上的仓库，报端口 443 错误  二、问题分析Git 所设端口与系统代理不一致，需重新设置 三、解决方法3-1、打开代理页面打开 设置 –&gt; 网络与Inter">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://suixiang5731.github.io/2023/07/27/Github%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/v2-3b264466dfeec3e70ff0534c35da18c2_r.jpg">
-<meta property="og:image" content="https://suixiang5731.github.io/2023/07/27/Github%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/v2-baceb7a931e8f13ff5b0956a68955639_b.jpg">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/07/27/Github%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/v2-baceb7a931e8f13ff5b0956a68955639_b.gif">
 <meta property="og:image" content="https://suixiang5731.github.io/2023/07/27/Github%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/v2-32f6f2e6e7ea50f9de6f9aa35bd56dcd_r.jpg">
 <meta property="og:image" content="https://suixiang5731.github.io/2023/07/27/Github%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/v2-a2dca06821dc763f84f6dad814011606_r.jpg">
 <meta property="og:image" content="https://suixiang5731.github.io/2023/07/27/Github%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/%E5%9B%BE%E7%89%87_20230727151609-bak.png">
 <meta property="article:published_time" content="2023-07-27T07:05:52.000Z">
-<meta property="article:modified_time" content="2023-07-27T07:32:58.313Z">
+<meta property="article:modified_time" content="2023-07-27T07:39:38.783Z">
 <meta property="article:author" content="suixiang5731">
 <meta property="article:tag" content="GitHub">
 <meta property="article:tag" content="git">
@@ -289,7 +289,7 @@
 <p><img src="/2023/07/27/Github%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/v2-3b264466dfeec3e70ff0534c35da18c2_r.jpg" srcset="/img/loading.gif" lazyload></p>
 <h2 id="二、问题分析"><a href="#二、问题分析" class="headerlink" title="二、问题分析"></a>二、问题分析</h2><p>Git 所设端口与系统代理不一致，需重新设置</p>
 <h2 id="三、解决方法"><a href="#三、解决方法" class="headerlink" title="三、解决方法"></a>三、解决方法</h2><h3 id="3-1、打开代理页面"><a href="#3-1、打开代理页面" class="headerlink" title="3-1、打开代理页面"></a>3-1、打开代理页面</h3><p>打开 设置 –&gt; 网络与Internet –&gt; 查找代理</p>
-<p><img src="/2023/07/27/Github%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/v2-baceb7a931e8f13ff5b0956a68955639_b.jpg" srcset="/img/loading.gif" lazyload alt="动图封面"></p>
+<p><img src="/2023/07/27/Github%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/v2-baceb7a931e8f13ff5b0956a68955639_b.gif" srcset="/img/loading.gif" lazyload></p>
 <p>记录下当前系统代理的 IP 地址和端口号</p>
 <p>如上图所示，地址与端口号为：127.0.0.1:7890</p>
 <p>可以尝试直接关闭设置内的系统代理，如果无效再修改git网络设置</p>
