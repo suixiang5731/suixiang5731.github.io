@@ -16,32 +16,29 @@
   <meta name="author" content="suixiang5731">
   <meta name="keywords" content="">
   
-    <meta name="description" content="解决 Github port 443 : Timed outFailed to connect to github.com port 443 : Timed out 一、问题描述如下图所示，无法 git clone 来自 Github 上的仓库，报端口 443 错误  二、问题分析Git 所设端口与系统代理不一致，需重新设置 三、解决方法3-1、打开代理页面打开 设置 –&gt; 网络与Inter">
+    <meta name="description" content="今天在做项目的时候遇到一个关于布局的问题, 就是 flex: 1; 我一直以为 flex: 1; 代表的是 flex: auto; 后来发现结果并不是这样, 所以写一篇博客来讲解一下 flex: 1; 代表什么 代码第一版123456789101112131415&lt;div class&#x3D;&quot;container&quot;&gt;  &lt;div class&#x3D;&quot;div&amp;quo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Github访问问题解决记录">
-<meta property="og:url" content="https://suixiang5731.github.io/2023/07/27/Github%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:title" content="SxBlog">
+<meta property="og:url" content="https://suixiang5731.github.io/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="SxBlog">
-<meta property="og:description" content="解决 Github port 443 : Timed outFailed to connect to github.com port 443 : Timed out 一、问题描述如下图所示，无法 git clone 来自 Github 上的仓库，报端口 443 错误  二、问题分析Git 所设端口与系统代理不一致，需重新设置 三、解决方法3-1、打开代理页面打开 设置 –&gt; 网络与Inter">
+<meta property="og:description" content="今天在做项目的时候遇到一个关于布局的问题, 就是 flex: 1; 我一直以为 flex: 1; 代表的是 flex: auto; 后来发现结果并不是这样, 所以写一篇博客来讲解一下 flex: 1; 代表什么 代码第一版123456789101112131415&lt;div class&#x3D;&quot;container&quot;&gt;  &lt;div class&#x3D;&quot;div&amp;quo">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://suixiang5731.github.io/2023/07/27/Github%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/v2-3b264466dfeec3e70ff0534c35da18c2_r.jpg">
-<meta property="og:image" content="https://suixiang5731.github.io/2023/07/27/Github%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/v2-baceb7a931e8f13ff5b0956a68955639_b.gif">
-<meta property="og:image" content="https://suixiang5731.github.io/2023/07/27/Github%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/v2-32f6f2e6e7ea50f9de6f9aa35bd56dcd_r.jpg">
-<meta property="og:image" content="https://suixiang5731.github.io/2023/07/27/Github%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/v2-a2dca06821dc763f84f6dad814011606_r.jpg">
-<meta property="og:image" content="https://suixiang5731.github.io/2023/07/27/Github%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/%E5%9B%BE%E7%89%87_20230727151609-bak.png">
-<meta property="article:published_time" content="2023-07-27T07:05:52.000Z">
-<meta property="article:modified_time" content="2023-07-27T07:39:38.783Z">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-8cc589398d0576b41e365af19b9e9325_r.jpg">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-c52fab6fae7537b9223b28d786bb4d3c_r.jpg">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-c1a91d2970defbd29c6fd9e897f9414c_r.jpg">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-679d29029cd5ac3996ac7f278e6d411d_r.jpg">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-533796bc14adcb110e2bc96e60330b55_r.jpg">
+<meta property="article:published_time" content="2023-10-12T07:26:49.950Z">
+<meta property="article:modified_time" content="2023-10-12T07:30:25.050Z">
 <meta property="article:author" content="suixiang5731">
-<meta property="article:tag" content="GitHub">
-<meta property="article:tag" content="git">
-<meta property="article:tag" content="timeout">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://suixiang5731.github.io/2023/07/27/Github%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/v2-3b264466dfeec3e70ff0534c35da18c2_r.jpg">
+<meta name="twitter:image" content="https://suixiang5731.github.io/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-8cc589398d0576b41e365af19b9e9325_r.jpg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Github访问问题解决记录 - SxBlog</title>
+  <title>SxBlog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -207,7 +204,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Github访问问题解决记录"></span>
+            <span id="subtitle" data-typed-text=""></span>
           
         </div>
 
@@ -218,8 +215,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-07-27 15:05" pubdate>
-          2023年7月27日 下午
+        <time datetime="2023-10-12 15:26" pubdate>
+          2023年10月12日 下午
         </time>
       </span>
     
@@ -230,7 +227,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.4k 字
+          1.6k 字
         
       </span>
     
@@ -241,7 +238,7 @@
         
         
         
-          12 分钟
+          14 分钟
         
       </span>
     
@@ -279,53 +276,56 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Github访问问题解决记录</h1>
+            <h1 style="display: none"></h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="解决-Github-port-443-Timed-out"><a href="#解决-Github-port-443-Timed-out" class="headerlink" title="解决 Github port 443 : Timed out"></a>解决 Github port 443 : Timed out</h1><p>Failed to connect to <a target="_blank" rel="noopener" href="http://github.com/">github.com</a> port 443 : Timed out</p>
-<h2 id="一、问题描述"><a href="#一、问题描述" class="headerlink" title="一、问题描述"></a>一、问题描述</h2><p>如下图所示，无法 git clone 来自 Github 上的仓库，报端口 443 错误</p>
-<p><img src="/2023/07/27/Github%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/v2-3b264466dfeec3e70ff0534c35da18c2_r.jpg" srcset="/img/loading.gif" lazyload></p>
-<h2 id="二、问题分析"><a href="#二、问题分析" class="headerlink" title="二、问题分析"></a>二、问题分析</h2><p>Git 所设端口与系统代理不一致，需重新设置</p>
-<h2 id="三、解决方法"><a href="#三、解决方法" class="headerlink" title="三、解决方法"></a>三、解决方法</h2><h3 id="3-1、打开代理页面"><a href="#3-1、打开代理页面" class="headerlink" title="3-1、打开代理页面"></a>3-1、打开代理页面</h3><p>打开 设置 –&gt; 网络与Internet –&gt; 查找代理</p>
-<p><img src="/2023/07/27/Github%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/v2-baceb7a931e8f13ff5b0956a68955639_b.gif" srcset="/img/loading.gif" lazyload></p>
-<p>记录下当前系统代理的 IP 地址和端口号</p>
-<p>如上图所示，地址与端口号为：127.0.0.1:7890</p>
-<p>可以尝试直接关闭设置内的系统代理，如果无效再修改git网络设置</p>
-<h3 id="3-2、修改-Git-的网络设置"><a href="#3-2、修改-Git-的网络设置" class="headerlink" title="3-2、修改 Git 的网络设置"></a>3-2、修改 Git 的网络设置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 注意修改成自己的IP和端口号</span><br>git config --global http.proxy http://127.0.0.1:7890 <br>git config --global https.proxy http://127.0.0.1:7890<br></code></pre></td></tr></table></figure>
+                <p>今天在做项目的时候遇到一个关于布局的问题, 就是 <strong>flex: 1;</strong> 我一直以为 flex: 1; 代表的是 <strong>flex: auto;</strong> 后来发现结果并不是这样, 所以写一篇博客来讲解一下 flex: 1; 代表什么</p>
+<h2 id="代码第一版"><a href="#代码第一版" class="headerlink" title="代码第一版"></a>代码第一版</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;container&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;div&quot;</span>&gt;</span>我是一个div<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;div&quot;</span>&gt;</span>我是一个很多字div<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;div&quot;</span>&gt;</span>我是一个更多字而且第三个div<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css"></span><br><span class="language-css"><span class="hljs-selector-class">.container</span>&#123;</span><br><span class="language-css">  <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css">&#125;</span><br><span class="language-css"><span class="hljs-selector-class">.div</span>&#123;</span><br><span class="language-css">  <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid red;</span><br><span class="language-css">  <span class="hljs-attribute">flex</span>: <span class="hljs-number">1</span>;</span><br><span class="language-css">&#125;</span><br><span class="language-css"></span><br><span class="language-css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="/2023/07/27/Github%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/v2-32f6f2e6e7ea50f9de6f9aa35bd56dcd_r.jpg" srcset="/img/loading.gif" lazyload></p>
-<h2 id="四、完结撒花"><a href="#四、完结撒花" class="headerlink" title="四、完结撒花"></a>四、完结撒花</h2><p>可以重新 clone 尝试了（其实主要解决的是为啥搭建了梯子依旧不好使的问题，哈哈哈）</p>
-<h2 id="五、后记"><a href="#五、后记" class="headerlink" title="五、后记"></a>五、后记</h2><p>当我们访问GitHub的时候一般都会使用梯子，所以往上推代码的时候也是需要梯子，没有梯子推送成功概率很低，一般都会报错超时，所以设置梯子提高访问成功率；</p>
-<p>取消代理是因为，访问 Gitee 或其它是不需要梯子，所以要取消代理；或者后悔设置代理了，也可以利用此取消</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 取消代理</span><br>git config --global --<span class="hljs-built_in">unset</span> http.proxy<br>git config --global --<span class="hljs-built_in">unset</span> https.proxy<br><br><span class="hljs-comment"># 查看代理</span><br>git config --global --get http.proxy<br>git config --global --get https.proxy<br></code></pre></td></tr></table></figure>
+<p><img src="/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-8cc589398d0576b41e365af19b9e9325_r.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>利用 <strong>flex: 1; 确实实现了三个不同内容的 div 平分空间, 所以按我以前的想法来说:</strong></p>
+<blockquote>
+<p><strong>flex: 1; &#x3D;&#x3D;&#x3D; flex: 1 1 auto;</strong></p>
+</blockquote>
+<p>这是完整写法, 详见**<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex">mdn</a>**, 它还有另外两种完整写法, 分别是 <strong>initial (0 1 auto)</strong> 和 <strong>none (0 0 auto)</strong></p>
+<ul>
+<li>第一个参数表示: <strong>flex-grow 定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大</strong></li>
+<li>第二个参数表示: <strong>flex-shrink 定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小</strong></li>
+<li>第三个参数表示: <strong>flex-basis</strong> <strong>给上面两个属性分配多余空间之前, 计算项目是否有多余空间, 默认值为 auto, 即项目本身的大小</strong></li>
+</ul>
+<h2 id="代码第二版"><a href="#代码第二版" class="headerlink" title="代码第二版"></a>代码第二版</h2><p>上面证实了我以前的想法, flex:1; 就是代表均匀分配元素, 但是我们来改成完整写法看看</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-comment">/* 其他代码没有变化, 沿用上面的 */</span><br><br><span class="hljs-selector-class">.div</span>&#123;<br>  <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid red;<br>  <span class="hljs-attribute">flex</span>: <span class="hljs-number">1</span> <span class="hljs-number">1</span> auto; <br>&#125;<br></code></pre></td></tr></table></figure>
 
-
-
-<p>原文链接：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/636418854">解决 Github port 443 : Timed out - 知乎</a></p>
-<h1 id="OpenSSL-SSL-read-Connection-was-reset-errno-10054"><a href="#OpenSSL-SSL-read-Connection-was-reset-errno-10054" class="headerlink" title="OpenSSL SSL_read: Connection was reset, errno 10054"></a>OpenSSL SSL_read: Connection was reset, errno 10054</h1><p>问题场景：之前关联的github库没办法上传（push）了，提示本地库不存在。于是做了</p>
-<p>git init &#x2F;&#x2F;初始化资源库</p>
-<p><strong>git remote</strong>-v origin https:<strong>&#x2F;&#x2F;</strong><a target="_blank" rel="noopener" href="http://github.com/">http://github.com/</a>我的库 &#x2F;&#x2F;将本地库与远程库做关联，</p>
-<p>git pull 先将线上的资源拉取下来。</p>
-<p>问题出在了git pull的时候，提示错误</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">fatal: unable to access &#x27;http://github.com/我的库/&#x27;: OpenSSL SSL_read: Connection was reset, errno 10054<br></code></pre></td></tr></table></figure>
-
-<p>报错原因：</p>
-<p>字面意思：服务器的<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=SSL&spm=1001.2101.3001.7020">SSL</a>证书灭有经过第三方机构的签署。</p>
-<p>网上信息也有的说可能是网络不稳定，连接超时导致。</p>
-<p>解决办法：</p>
-<p>1.修改设置，解除SSL验证。打开 <a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%91%BD%E4%BB%A4%E8%A1%8C&spm=1001.2101.3001.7020">命令行</a>工具， 输入：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">git config --global http.sslVerify &quot;false&quot;<br>git config --global https.sslVerify &quot;false&quot;<br></code></pre></td></tr></table></figure>
-
-<p>2、打开本地仓库的.git文件夹下的config文件</p>
-<p>可以看到如下配置：</p>
-<p><img src="/2023/07/27/Github%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/v2-a2dca06821dc763f84f6dad814011606_r.jpg" srcset="/img/loading.gif" lazyload></p>
-<p>配置文件</p>
-<p>3、git pull 成功</p>
-<p>原文链接：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/492983195">OpenSSL SSL_read: Connection was reset, errno 10054 - 知乎</a></p>
-<h1 id="使用-git-进行-push-时几乎无法连接"><a href="#使用-git-进行-push-时几乎无法连接" class="headerlink" title="使用 git 进行 push 时几乎无法连接"></a>使用 git 进行 push 时几乎无法连接</h1><p><img src="/2023/07/27/Github%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/%E5%9B%BE%E7%89%87_20230727151609-bak.png" srcset="/img/loading.gif" lazyload alt="图片_20230727151609-bak"></p>
-<p>原文链接：<a target="_blank" rel="noopener" href="https://www.v2ex.com/t/819005">使用 git 进行 push 时几乎无法连接 - V2EX</a></p>
+<p><img src="/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-c52fab6fae7537b9223b28d786bb4d3c_r.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>加入原来以为正确的完整代码后可以看到三个元素没有<strong>均分</strong>, 所以可以推出:</p>
+<blockquote>
+<p><strong>flex: 1; !&#x3D;&#x3D; flex: 1 1 auto;</strong></p>
+</blockquote>
+<p><strong>走到这我就一头雾水, 为什么和我以前想的完全不同, 于是我就去参照了 <a target="_blank" rel="noopener" href="https://www.w3.org/TR/css-flexbox-1/#flex-common">w3c</a></strong> <strong>对于 flex 的解释, 官方明确指, flex 最后一个参数为 0, 见下图</strong></p>
+<p><img src="/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-c1a91d2970defbd29c6fd9e897f9414c_r.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><strong>所以:</strong></p>
+<ul>
+<li><strong>flex: 1; &#x3D;&#x3D;&#x3D; flex: 1 1 0;</strong></li>
+</ul>
+<p>但是在 chrome 浏览器上设置 flex: 1 1 0; 时, 它会自动加一个单位 px</p>
+<p><img src="/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-679d29029cd5ac3996ac7f278e6d411d_r.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>而设置 flex: 1; 时, 它会自动加一个 %, 看来他们解析到浏览器的时候必须带一个单位</p>
+<p><img src="/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-533796bc14adcb110e2bc96e60330b55_r.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>于是我就又做了几个实验, 改了一下 flex-basis 的参数, <strong>得出以下结论</strong></p>
+<ul>
+<li><strong>flex: 1; &#x3D;&#x3D;&#x3D; flex: 1 1 任意数字+任意长度单位;</strong></li>
+</ul>
+<p><strong>可以看出最重要的一点在 第三个参数 flex-basis 上, 我们再来回顾以下 这个属性的作用</strong></p>
+<blockquote>
+<p><strong>flex-basis给上面两个属性分配多余空间之前, 计算项目是否有多余空间, 默认值为 auto, 即项目本身的大小</strong></p>
+</blockquote>
+<p>auto 为表示项目本身的大小, <strong>如果设置为 auto, 那么这三个盒子就会按照自己内容的多少来等比例的放大和缩小</strong>, 所以出现了上图中三个盒子不一样大的情况</p>
+<p>那我们如果<strong>随便设置一个其他带有长度单位的数字</strong>呢, 那么他就不会按项目本身来计算, 所以它不关心内容, 只是把空间等比收缩和放大</p>
+<p>现在你知道 flex: 1; 为什么能平分元素了吧, CSS 是一门很难学的语言, 虽然我经过不断试验得出结果, 但是它还有好多莫名其妙的问题去等你发现. 比如 <strong>margin: auto 为什么会实现居中, overflow: hidden 为何能实现 BFC</strong></p>
+<p><strong>你可以遵从官方标准, 也可以和我一样去实验性的看待 flex: 1;</strong></p>
+<p><strong>不过我建议你别深究这些问题, 因为所见即所得, 它这样能实现效果就可以了, CSS 学习是没必要刨根问底的, 会用就是最好的证明, 以上仅为个人见解, 如有疑问请给我留言或私信</strong></p>
 
                 
               </div>
@@ -334,38 +334,6 @@
             <div>
               <div class="post-metas my-3">
   
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E6%97%A5%E5%B8%B8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/" class="category-chain-item">日常问题解决记录</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/GitHub/">#GitHub</a>
-      
-        <a href="/tags/git/">#git</a>
-      
-        <a href="/tags/timeout/">#timeout</a>
-      
-    </div>
   
 </div>
 
@@ -375,8 +343,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Github访问问题解决记录</div>
-      <div>https://suixiang5731.github.io/2023/07/27/Github访问问题解决记录/</div>
+      <div></div>
+      <div>https://suixiang5731.github.io/2023/10/12/flex学习记录/</div>
     </div>
     <div class="license-meta">
       
@@ -388,7 +356,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年7月27日</div>
+          <div>2023年10月12日</div>
         </div>
       
       
@@ -420,18 +388,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" title="">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile"></span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/07/26/hexo%E5%8D%9A%E5%AE%A2GitHubPage%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D%E5%BC%80%E5%90%AFHttps/" title="Hexo结合GitHubPage自定义域名开启Https">
-                        <span class="hidden-mobile">Hexo结合GitHubPage自定义域名开启Https</span>
+                      <a href="/2023/07/27/Github%E8%AE%BF%E9%97%AE%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/" title="Github访问问题解决记录">
+                        <span class="hidden-mobile">Github访问问题解决记录</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
