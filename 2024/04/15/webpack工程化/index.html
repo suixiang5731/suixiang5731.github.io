@@ -1,0 +1,834 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/browswerIcon.png">
+  <link rel="icon" href="/img/browswerIcon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="suixiang5731">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="webpack工程化-面试题webpack有哪些常见的loader? 你用过哪些loader? raw-loader: 加载文件原始内容 file-loader: 把文件输出到文件夹中，在代码中通过相对url去引用输出的文件夹（包含图片、字体） url-loader：和file-loader类似，区别是用户可以设置一个阈值。 大于阈值会交给file-loader 处理，小于阈值则返回base64编">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack工程化">
+<meta property="og:url" content="https://suixiang5731.github.io/2024/04/15/webpack%E5%B7%A5%E7%A8%8B%E5%8C%96/index.html">
+<meta property="og:site_name" content="SxBlog">
+<meta property="og:description" content="webpack工程化-面试题webpack有哪些常见的loader? 你用过哪些loader? raw-loader: 加载文件原始内容 file-loader: 把文件输出到文件夹中，在代码中通过相对url去引用输出的文件夹（包含图片、字体） url-loader：和file-loader类似，区别是用户可以设置一个阈值。 大于阈值会交给file-loader 处理，小于阈值则返回base64编">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-15T01:56:32.000Z">
+<meta property="article:modified_time" content="2024-04-15T01:58:56.897Z">
+<meta property="article:author" content="suixiang5731">
+<meta property="article:tag" content="webpack">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>webpack工程化 - SxBlog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"suixiang5731.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>sx&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/post-default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="webpack工程化"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-04-15 09:56" pubdate>
+          2024年4月15日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          61 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">webpack工程化</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h4 id="webpack工程化-面试题"><a href="#webpack工程化-面试题" class="headerlink" title="webpack工程化-面试题"></a>webpack工程化-面试题</h4><h2 id="webpack有哪些常见的loader-你用过哪些loader"><a href="#webpack有哪些常见的loader-你用过哪些loader" class="headerlink" title="webpack有哪些常见的loader? 你用过哪些loader?"></a>webpack有哪些常见的loader? 你用过哪些loader?</h2><ul>
+<li>raw-loader: 加载文件原始内容</li>
+<li>file-loader: 把文件输出到文件夹中，在代码中通过相对url<br>去引用输出的文件夹（包含图片、字体）</li>
+<li>url-loader：和file-loader类似，区别是用户可以设置一个阈值。 大于阈值会交给file-loader 处理，小于阈值则返回base64编码（一般用来处理图片）</li>
+<li>source-map-loader：加载额外的source-map文件，方便断点调试</li>
+<li>image-loader：加载并压缩图片文件</li>
+<li>json-loader：加载json文件</li>
+<li>babel-loader：将es6 装换成es5</li>
+<li>ts-loader：将ts 语音转换成 js</li>
+<li>sass-loader、less-loader：都是转换成css</li>
+<li>css-loader：加载css</li>
+<li>style-loader： 把css注入到js中，通过dom操作加载css</li>
+<li>postcss-loader：扩展css语法，使用下一代css</li>
+<li>eslint-loader、tslint-loader:代码检查。</li>
+<li>vue-loader：加载vue.js单文件组件。</li>
+</ul>
+<h2 id="webpack-有哪些常见的Plugin-你用过哪些Plugin"><a href="#webpack-有哪些常见的Plugin-你用过哪些Plugin" class="headerlink" title="webpack 有哪些常见的Plugin? 你用过哪些Plugin?"></a>webpack 有哪些常见的Plugin? 你用过哪些Plugin?</h2><ul>
+<li>define-plugin：定义环境变量，</li>
+<li>ignore-plugin：忽略部分文件</li>
+<li>html-webpack-plugin：简化html文件创建</li>
+<li>uglifyjs-webpack-plugin：压缩js</li>
+<li>mini-css-extract-plugin：分离样式文件，css提取为单独的文件，支持按需加载</li>
+<li>clean-webpack-plugin：目录清理（用在下次打包之前把上次打包的内容清理掉）</li>
+<li>webpack-bundle-analyzer：可视化webpack输出文件的体积。用于分析当前项目依赖文件的体积大小。</li>
+<li>speed-measure-webpack-plugin：分析每个loader 和 plugin 执行耗时</li>
+</ul>
+<h2 id="说说Loader-和Plugin-的区别"><a href="#说说Loader-和Plugin-的区别" class="headerlink" title="说说Loader 和Plugin 的区别"></a>说说Loader 和Plugin 的区别</h2><h6 id="作用上"><a href="#作用上" class="headerlink" title="作用上"></a>作用上</h6><ul>
+<li>loader 本质是一个函数，对接收到的内容进行转换，返回转换后的结果，webpack只认识js，所以loader就相当于翻译官。对其他类型资源进行转译和预处理。</li>
+<li>plugin：是插件，它基于事件流框架 Tabable，可以扩展webpack功能，在webpack运行的生命周期中会<strong>广播很多事件</strong>。plugin可以监听这些事件，在<strong>适合的时机</strong>通过webpackapi 改变输出的结果。</li>
+</ul>
+<h6 id="结构上"><a href="#结构上" class="headerlink" title="结构上"></a>结构上</h6><ul>
+<li>loader ：在module.rules 中进行配置，类型是数组，每项都是对象，对象包含（test 文件类型，loader 对应的模块加载器，option 对应的参数）</li>
+<li>plugin：每个plugin都需要单独配置，类型是数组，每项plugin是一个plugin实例，参数通过构造函数传入。</li>
+</ul>
+<h2 id="webpack-构建流程简单说一下"><a href="#webpack-构建流程简单说一下" class="headerlink" title="webpack 构建流程简单说一下"></a>webpack 构建流程简单说一下</h2><p>它的运行流程是一个串行的过程。<br>1、初始化参数：从<a href="">配置文件</a>和shell语句中读取并且合并参数，得到最终的参数。<br>2、开始编译：初始化Compiler 对象，加载所有的配置插件。执行对象run方法，开始编译。<br>3、确定入口：根据配置的entry找到所有入口<br>4、翻译模块：调用所有的loader 对模块进行编译，找出模块依赖的模块，再<strong>递归</strong>本步骤直到所有入口依赖的文件都经过处理。<br>5、完成模块编译：经过loader翻译完所有模块后的最终内容以及它们之间的依赖关系。<br>6、输出资源：根据入口以及它们依赖关系组装成一个个包含多个模块的<strong>chunk</strong>，再把每个<strong>chunk 转换成单独的文件</strong>加入到输出列表中。（这里可以修改输出内容，并且是修改的最后一个机会）<br>7、输出完成：根据配置确定输出的路径和文件名，把文件内容写到文件中，</p>
+<blockquote>
+<p>在上面流程中，webpack 会在特定的时间点广播特定事件，插件在监听到事件后调用webpack 提供的API 改变输出结果</p>
+</blockquote>
+<h2 id="使用webpack开发时，使用过哪些可以提高效率的插件？"><a href="#使用webpack开发时，使用过哪些可以提高效率的插件？" class="headerlink" title="使用webpack开发时，使用过哪些可以提高效率的插件？"></a>使用webpack开发时，使用过哪些可以提高效率的插件？</h2><ul>
+<li>webpack-dashboard：更友好的展示的展示相关包信息。</li>
+<li>webpack-merge：提取公共配置，可以将多个配置文件合并，减少代码重复。</li>
+<li>speed-measure-webpack-plugin：分析 loader 和 plugin 的耗时，从而分析构建过程中的性能瓶颈。</li>
+<li>size-plugin：监控资源体积变化，尽早发现问题。</li>
+<li>HotModuleReplacementPlugin：模块热替换。</li>
+</ul>
+<h2 id="如何优化webpack-的构建速度？"><a href="#如何优化webpack-的构建速度？" class="headerlink" title="如何优化webpack 的构建速度？"></a>如何优化webpack 的构建速度？</h2><ol>
+<li>使用高版本webpack 和 node.js</li>
+<li>多进程 &#x2F; 多实例构建 thread-loader</li>
+<li>压缩代码 、多进程并行压缩‘</li>
+</ol>
+<blockquote>
+<p>1）webpack-paralle-uglify-plugin ：可以并行运行 UglifyJS 插件，从而更加充分、合理的使用 CPU<br>资源，从而大大减少构建时间 2）terser-webpack-plugin ：它使用 Terser 库来执行压缩，Terser<br>是一个用于压缩 JavaScript 代码的工具，可以对代码进行简单的混淆，以及删除未使用的代码和注释等优化。 3）<br>mini-css-extract-plugin ： 可以避免将 CSS 代码打包到 JavaScript 文件中，减少 JavaScript<br>的体积，同时也可以使得 CSS 文件可以被浏览器缓存，提高页面加载速度。</p>
+</blockquote>
+<ol start="4">
+<li>图片压缩 （imagemin、image-webpack-plugin）</li>
+<li>缩小打包作用域<br>1)、通过exclude &#x2F; include 来确定loader 规则范围。<br>2)、设置resolve.extensions.<br>3)、resolve.modules</li>
+<li>提取页面公共的资源<br>1)、基础包分离<br>2)、使用html-webpack-externals-plugin 基础包通过cdn引入，不打入bundle 中。<br>3)、使用splitchunksplugin 将代码拆分成多个块，以便在不同的环境中按需加载。</li>
+<li>充分利用缓存提升二次构建速度。<br>1)、使用 babel-loader 开启缓存<br>2)、terser-webpack-plugin 开启缓存<br>3)、cache-loader 或者 hard-source-webpack-plugin</li>
+<li>tree shaking (没有用过的模块代码进行标记，从最终bundle 中去掉)</li>
+</ol>
+<h2 id="文件指纹是什么？怎么用？"><a href="#文件指纹是什么？怎么用？" class="headerlink" title="文件指纹是什么？怎么用？"></a>文件指纹是什么？怎么用？</h2><p>文件指纹：打包后输出的文件名后缀。</p>
+<ul>
+<li>hash：和整个项目构建相关的，只有项目文件改变、项目的hash值就会改变。</li>
+<li>chunkHash：和webpack打包的chunk 相关，不同的entry产生不同的chunkHash，</li>
+<li>contentHash：根据文件内容定义hash，文件内容不变contentHash就不会变。</li>
+</ul>
+<h5 id="js的文件指纹设置。"><a href="#js的文件指纹设置。" class="headerlink" title="js的文件指纹设置。"></a>js的文件指纹设置。</h5><p>主要设置output 的 fllename 使用 chunkhash.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = &#123;<br>	<span class="hljs-attr">entry</span>: &#123;<span class="hljs-attr">spp</span>: <span class="hljs-string">&#x27;./src/app.js&#x27;</span>, <span class="hljs-attr">search</span>: <span class="hljs-string">&#x27;./src/search.js&#x27;</span>&#125;,<br>	<span class="hljs-attr">output</span>: &#123;<span class="hljs-attr">filename</span>: <span class="hljs-string">&#x27;[name][chunkhash:8].js&#x27;</span>,<span class="hljs-attr">path</span>:_dirname + <span class="hljs-string">&#x27;/dist&#x27;</span>&#125;<br>	<span class="hljs-comment">// chunkhash:8 是设置对应的长度</span><br>&#125;<br><span class="hljs-number">12345</span><br></code></pre></td></tr></table></figure>
+
+<h5 id="css-文件指纹设置"><a href="#css-文件指纹设置" class="headerlink" title="css 文件指纹设置"></a>css 文件指纹设置</h5><p>设置MiniCssExtractPlugin</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = &#123;<br>	<span class="hljs-attr">entry</span>: &#123;<span class="hljs-attr">spp</span>: <span class="hljs-string">&#x27;./src/app.js&#x27;</span>, <span class="hljs-attr">search</span>: <span class="hljs-string">&#x27;./src/search.js&#x27;</span>&#125;,<br>	<span class="hljs-attr">output</span>: &#123;<span class="hljs-attr">filename</span>: <span class="hljs-string">&#x27;[name][chunkhash:8].js&#x27;</span>,<span class="hljs-attr">path</span>:_dirname + <span class="hljs-string">&#x27;/dist&#x27;</span>&#125;,<br>	<span class="hljs-attr">plugin</span>: [<br>		<span class="hljs-keyword">new</span> <span class="hljs-title class_">MinCssExtractPlugin</span>(&#123; <span class="hljs-attr">filename</span>:<span class="hljs-string">&#x27;[name][contenthash:8].css&#x27;</span>&#125;),<br>	]<br>&#125;<br><span class="hljs-number">1234567</span><br></code></pre></td></tr></table></figure>
+
+<h5 id="图片相关文件指纹设置"><a href="#图片相关文件指纹设置" class="headerlink" title="图片相关文件指纹设置"></a>图片相关文件指纹设置</h5><p>设置 file-loader 中的name</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;path&#x27;</span>);<br><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = &#123;<br>    <span class="hljs-attr">entry</span>: <span class="hljs-string">&#x27;./src/index.js&#x27;</span>,<br>    <span class="hljs-attr">output</span>: &#123;<br>      <span class="hljs-attr">filename</span>: <span class="hljs-string">&#x27;bundle.js&#x27;</span>,<br>      <span class="hljs-attr">path</span>: path.<span class="hljs-title function_">resolve</span>(__dirname, <span class="hljs-string">&#x27;dist&#x27;</span>)<br>    &#125;, <br>    <span class="hljs-attr">module</span>: &#123;<br>        <span class="hljs-attr">rules</span>: [<br>            &#123;<br>                <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.(png|svg|jpg|gif)$/</span>,<br>                <span class="hljs-attr">use</span>: [<br>					&#123;<br>					  <span class="hljs-attr">loader</span>: <span class="hljs-string">&#x27;file-loader&#x27;</span>,<br>					  <span class="hljs-attr">option</span>: &#123;<span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;img/[name][hash:8].[ext]&#x27;</span>&#125;,<br>					&#125;<br>				],<br>			&#125;<br>		]<br>	&#125;<br>&#125;<br><span class="hljs-number">123456789101112131415161718192021</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="是否写过loader？简单描写一下编写loader-的思路？"><a href="#是否写过loader？简单描写一下编写loader-的思路？" class="headerlink" title="是否写过loader？简单描写一下编写loader 的思路？"></a>是否写过loader？简单描写一下编写loader 的思路？</h2><ul>
+<li>loader是支持链式调用的，所有在开发中需要严格遵守单一职责。每个loader负责自己所需要负责的事情。</li>
+<li>loader是运行在nodejs中的，可以调用nodejs api 或者安装第三方模块调用。 传给loader 的原内容是 utf-8</li>
+<li>编码的字符串 尽可能异步化loader ，如果计算量小的化同步也可以</li>
+<li>loader 是无状态的，不应该在loader 中保留状态</li>
+<li>开发loader 时可以使用 loader-utils schema-utils 工具 还可以（通过npm link 和<br>resolveloader 这两种方式）加载本地的loader 方法</li>
+</ul>
+<h2 id="是否写过Plugin？简单描写一下编写Plugin的思路？"><a href="#是否写过Plugin？简单描写一下编写Plugin的思路？" class="headerlink" title="是否写过Plugin？简单描写一下编写Plugin的思路？"></a>是否写过Plugin？简单描写一下编写Plugin的思路？</h2><ul>
+<li>webpack运行生命周期中会广播出很多事件，让plugin 监听事件，特定阶段钩入想要添加的自定义插件内容</li>
+<li>webpack通过tapable 事件流机制保证插件有序性，使系统的扩张性很好</li>
+</ul>
+<p>compiler 暴露整个生命周期相关钩子<br>compliation 暴雷与模块和依赖有关的颗粒度更小的事件钩子<br>plugin 需要再原型上绑定apply方法，才能访问compiler 实例。<br>插件接收 compiler 、compliation 都是同一个引用。<br>找到合适的事件点完成想要执行的内容，</p>
+<h2 id="说说Babel-原理"><a href="#说说Babel-原理" class="headerlink" title="说说Babel 原理"></a>说说Babel 原理</h2><p>在 webpack 中，Babel 主要用于将 ECMAScript 2015+版本的代码转换为向后兼容的 JavaScript 语法，以便能够运行在当前和旧版本的浏览器或其它环境中。Babel 的转化过程如下：</p>
+<ol>
+<li>Parse：使用 babylon 将原始代码转换为抽象语法树。</li>
+<li>Transform：通过 babel-traverse 对前面的抽象语法树进行遍历修改，并获得新的抽象语法树。</li>
+<li>Generator：使用 babel-generator 将抽象语法树转换为代码。</li>
+</ol>
+<p>这三个操作通过 babel-core 合成一个对外的 API 供外界使用。</p>
+<h2 id="source-map-是什么？生产环境怎么用？"><a href="#source-map-是什么？生产环境怎么用？" class="headerlink" title="source map 是什么？生产环境怎么用？"></a>source map 是什么？生产环境怎么用？</h2><p>Source Map 用于将编译、打包、压缩后的代码映射回源代码。</p>
+<p>在生产环境中使用 Source Map 有以下几个步骤：</p>
+<ol>
+<li>在构建过程中生成 Source Map：确保你的构建工具（如 webpack）配置为生成 Source Map。</li>
+<li>部署包含 Source Map 的构建产物：将生成的 Source Map 与构建后的代码一起部署到生产环境。</li>
+<li>在开发工具中启用 Source Map：这样可以在浏览器中查看原始源代码，并在调试时将错误和堆栈跟踪映射回原始代码。</li>
+</ol>
+<p>使用 Source Map 的好处包括：</p>
+<ol>
+<li>更好的调试体验：可以在生产环境中查看和调试原始代码。</li>
+<li>提高开发效率：更容易找到和解决问题。</li>
+</ol>
+<p>然而，需要注意的是，使用 Source Map 会增加构建产物的大小，可能会对性能产生一定影响。因此，在生产环境中应谨慎使用，并在必要时进行优化。</p>
+<h2 id="文件监听原理"><a href="#文件监听原理" class="headerlink" title="文件监听原理"></a>文件监听原理</h2><p>Webpack 文件监听的原理是通过<strong>轮询</strong>判断文件的最后编辑时间是否发生变化。Webpack 首先存储文件的修改时间，下次再有修改时会与上次修改时间进行比对。如果发现不一致，Webpack 不会立即告诉监听者，而是将文件修改缓存起来，等待一段时间。在等待期间，如果有其他文件发生变化，Webpack 会将变化列表一起构建，并生成到 bundle 文件夹。</p>
+<p>文件监听的目的是在发现文件发生变化时，自动重新构建出新的输出文件。开启监听模式有两种方式，在启动 Webpack 命令时带上 –watch 参数，或在配置 webpack.config.js 中设置 watch: true。构建完成后，输出的文件会被放入磁盘中。</p>
+<h2 id="webpack-热更新原理"><a href="#webpack-热更新原理" class="headerlink" title="webpack 热更新原理"></a>webpack 热更新原理</h2><p>Webpack 的热更新（Hot Module Replacement，简称 HMR）是一种在开发时提供实时更新的功能，它使得在修改代码后，不需要完全刷新页面就能立即看到更新的效果。HMR 的原理涉及以下几个主要步骤：</p>
+<ol>
+<li><p>启动时建立 WebSocket 连接：在项目启动时，Webpack 会创建与开发服务器的 WebSocket 连接，用于在构建完成后接收更新的模块。</p>
+</li>
+<li><p>构建编译阶段：Webpack 在编译时会在每个模块中注入 HMR 运行时代码。该代码会监听源代码的变化，并通知 HMR runtime 进行处理。</p>
+</li>
+<li><p>文件监控：Webpack 会监控所有入口文件及其依赖的文件，一旦检测到文件发生变化，会触发重新编译。</p>
+</li>
+<li><p>构建完成：当编译完成后，Webpack 会将编译结果发送给开发服务器，并通过 WebSocket 通知客户端有新的资源可用。</p>
+</li>
+</ol>
+<h2 id="webpack-事件机制了解吗？"><a href="#webpack-事件机制了解吗？" class="headerlink" title="webpack 事件机制了解吗？"></a>webpack 事件机制了解吗？</h2><blockquote>
+<p>常见事件</p>
+<ul>
+<li>before-run：开始执行构建之前触发，可以用于清理上一次构建的临时文件或状态</li>
+<li>run：开始执行构建触发</li>
+<li>before-compile：开始编译代码前触发，可以用于添加一些额外的编辑配置或者预处理代码</li>
+<li>compile：开始编译，可用于监听编译过程或编译处理错误</li>
+<li>this-compilation：创建新的 Compilation 对象触发，Compilation 对象代表当前编辑过程中的所有状态和信息。</li>
+<li>compilataion：编辑代码期间触发，可用于监听编译过程或编译处理错误</li>
+<li>emit：输出文件之前触发，修改输出文件或者生成一些附件文件。</li>
+<li>after-emit：输出文件后触发，用于清理中间文件</li>
+<li>done：构建完成时触发，用于生成构建报告。</li>
+</ul>
+</blockquote>
+<p>事件机制<br>Webpack采用事件驱动的方式打包web应用，其事件机制主要依靠一个很小的<strong>核心库tapable来实现</strong>。封装了事件订阅发布机制。compile、compilataion 都是tapable类的实例对象，</p>
+<h2 id="webpack5-相比于-webpack4-有哪些提升？"><a href="#webpack5-相比于-webpack4-有哪些提升？" class="headerlink" title="webpack5 相比于 webpack4 有哪些提升？"></a>webpack5 相比于 webpack4 有哪些提升？</h2><ul>
+<li>更快的构建速度，尤其是开发模式下构建速度明显的提升</li>
+<li>Tree Shaking：优化算法。更准确哪些代码无用，更好的优化构建输出的文件大小</li>
+<li>内置的持久化缓存：可以缓存每个模块编译结果，加速后续构建，</li>
+<li>支持 WebAssmbly</li>
+<li>模块联班：Module federation 解决模块共享、远程加载。为微前端架构提供支持。</li>
+</ul>
+<h2 id="对模块联班的理解"><a href="#对模块联班的理解" class="headerlink" title="对模块联班的理解"></a>对模块联班的理解</h2><p>模块联邦（Module Federation）是 Webpack 5 推出的一个新特性。它是一种模块共用机制，允许本地调用远程的模块。通过模块联邦可以解决微前端依赖问题，对比 npm 库具有实时性的优势。</p>
+<h2 id="Webpack-中有哪些核心概念？"><a href="#Webpack-中有哪些核心概念？" class="headerlink" title="Webpack 中有哪些核心概念？"></a>Webpack 中有哪些核心概念？</h2><p>Webpack 中有以下几个核心概念：</p>
+<ol>
+<li>模块：Webpack 会将各种资源（如 JavaScript、CSS、图像等）视为模块。</li>
+<li>入口：指定 Webpack 开始构建的起点。</li>
+<li>输出：定义了最终生成的文件。</li>
+<li>加载器：用于处理特定类型的文件。</li>
+<li>插件：扩展 Webpack 的功能。</li>
+<li>依赖关系：模块之间的依赖关系。</li>
+<li>模块解析：确定如何查找和加载模块。</li>
+<li>代码分割：将代码分割成多个块，按需加载。</li>
+<li>优化：例如压缩、合并等，提高性能。</li>
+<li>热更新：在运行时自动更新变更的模块。</li>
+</ol>
+<h2 id="webpack-的mode是什么？"><a href="#webpack-的mode是什么？" class="headerlink" title="webpack 的mode是什么？"></a>webpack 的mode是什么？</h2><p>Webpack 的 mode 提供了 mode 配置选项，告知 Webpack 使用相应模式的内置优化。mode 的值可以是 <strong>development、production 或 none</strong>，分别代表开发模式、生产模式和无预设模式（需要从头开始配置）。如果 mode 没有被设置，系统会默认使用 production 模式。</p>
+<ol>
+<li>development（开发模式）：提供了一些有助于开发和调试的特性，更详细的错误信息和警告。实时重新加载。 未压缩的代码以提高调试效率。</li>
+<li>production（生产模式）：用于准备上线的构建，强调优化和性能：代码压缩和混淆。 资源优化。</li>
+<li>none (无预设模式) 关闭任何默认优化选项，只执行基本打包功能，不做任何额外处理。</li>
+</ol>
+<h2 id="什么是代码分割（code-Splitting），如何在webpack中实现？"><a href="#什么是代码分割（code-Splitting），如何在webpack中实现？" class="headerlink" title="什么是代码分割（code Splitting），如何在webpack中实现？"></a>什么是代码分割（code Splitting），如何在webpack中实现？</h2><p>代码分割是将一个应用程序的代码拆分成多个独立的块，以便可以按需加载。可以减少初始加载时间提高页面性能，在 Webpack 中配置实现代码分割，有以下多种方式：<br>1、入口起点配置：配置多个入口起点，不同部分打包成独立的代码块。<br>2、动态导入 （Dynamic import）:可以将模块作为单独的代码块按需加载，这样模块需要时才会下载执行，<br>3、使用 SplitChunksPlugin 插件来自动分割代码。自动拆分公共模块，并创建独立代码块，避免重启加载，提高缓存利用率。<br>4、使用 CommonsChunkPlugin 插件来提取公共模块。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/" class="category-chain-item">前端工程化</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/webpack/">#webpack</a>
+      
+        <a href="/tags/%E9%9D%A2%E8%AF%95/">#面试</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>webpack工程化</div>
+      <div>https://suixiang5731.github.io/2024/04/15/webpack工程化/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>suixiang5731</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年4月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/10/17/css%E6%B5%AE%E5%8A%A8/" title="css浮动">
+                        <span class="hidden-mobile">css浮动</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

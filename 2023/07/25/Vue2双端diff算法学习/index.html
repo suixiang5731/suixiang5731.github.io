@@ -1,0 +1,844 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/browswerIcon.png">
+  <link rel="icon" href="/img/browswerIcon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="suixiang5731">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Vue2 的双端 diff 算法学习。 篇幅原因，本文并不会介绍虚拟 DOM 树是如何生成的，仅讲解在数据更新时，是如何比较两颗虚拟 DOM 树并更新真实 DOM 的，主要实现 Vue2 源码中的 patchVnode、updateChildren 函数 预备知识diff 算法作用聊 diff 算法前得认识一下它是干嘛的。 我们知道在网页运行中，我们改变一些数据，它们可能会影响到 DOM 树。如何">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue2双端diff算法学习">
+<meta property="og:url" content="https://suixiang5731.github.io/2023/07/25/Vue2%E5%8F%8C%E7%AB%AFdiff%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="SxBlog">
+<meta property="og:description" content="Vue2 的双端 diff 算法学习。 篇幅原因，本文并不会介绍虚拟 DOM 树是如何生成的，仅讲解在数据更新时，是如何比较两颗虚拟 DOM 树并更新真实 DOM 的，主要实现 Vue2 源码中的 patchVnode、updateChildren 函数 预备知识diff 算法作用聊 diff 算法前得认识一下它是干嘛的。 我们知道在网页运行中，我们改变一些数据，它们可能会影响到 DOM 树。如何">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://suixiang5731.github.io/Vue2%E5%8F%8C%E7%AB%AFdiff%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/10c92251651c4cc28f556696661d597btplv-k3u1fbpfcp-zoom-in-crop-mark4536000.awebp">
+<meta property="og:image" content="https://suixiang5731.github.io/Vue2%E5%8F%8C%E7%AB%AFdiff%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/48585f8d2ded4db7bc73b5b566b811c1tplv-k3u1fbpfcp-zoom-in-crop-mark4536000.awebp">
+<meta property="og:image" content="https://suixiang5731.github.io/Vue2%E5%8F%8C%E7%AB%AFdiff%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/417842734e2b4209870a8717f4452079tplv-k3u1fbpfcp-zoom-in-crop-mark4536000.awebp">
+<meta property="og:image" content="https://suixiang5731.github.io/Vue2%E5%8F%8C%E7%AB%AFdiff%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/8482cb53c49c4be7bf0ea64c306c8852tplv-k3u1fbpfcp-zoom-in-crop-mark4536000.awebp">
+<meta property="og:image" content="https://suixiang5731.github.io/Vue2%E5%8F%8C%E7%AB%AFdiff%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/c11982331fb1458ba3725e4547d88fe4tplv-k3u1fbpfcp-zoom-in-crop-mark4536000.awebp">
+<meta property="og:image" content="https://suixiang5731.github.io/Vue2%E5%8F%8C%E7%AB%AFdiff%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/4bcde48abb8c44b8931081e0eecd21b6tplv-k3u1fbpfcp-zoom-in-crop-mark4536000.awebp">
+<meta property="og:image" content="https://suixiang5731.github.io/Vue2%E5%8F%8C%E7%AB%AFdiff%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/c0298603a19645be9b2ac4ea6352b8aftplv-k3u1fbpfcp-zoom-in-crop-mark4536000.awebp">
+<meta property="og:image" content="https://suixiang5731.github.io/Vue2%E5%8F%8C%E7%AB%AFdiff%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/e0e823d81bb94d63adff7cd69006e3f4tplv-k3u1fbpfcp-zoom-in-crop-mark4536000.awebp">
+<meta property="og:image" content="https://suixiang5731.github.io/Vue2%E5%8F%8C%E7%AB%AFdiff%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/a31a7f766b8c48b78e4227d2ddb476f1tplv-k3u1fbpfcp-zoom-in-crop-mark4536000.awebp">
+<meta property="og:image" content="https://suixiang5731.github.io/Vue2%E5%8F%8C%E7%AB%AFdiff%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/b182b8cc704f4e36b3c980d77a21e0betplv-k3u1fbpfcp-zoom-in-crop-mark4536000.awebp">
+<meta property="article:published_time" content="2023-07-25T09:14:14.000Z">
+<meta property="article:modified_time" content="2024-04-15T01:49:19.131Z">
+<meta property="article:author" content="suixiang5731">
+<meta property="article:tag" content="diff">
+<meta property="article:tag" content="双端算法">
+<meta property="article:tag" content="源码">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://suixiang5731.github.io/Vue2%E5%8F%8C%E7%AB%AFdiff%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/10c92251651c4cc28f556696661d597btplv-k3u1fbpfcp-zoom-in-crop-mark4536000.awebp">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Vue2双端diff算法学习 - SxBlog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"suixiang5731.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>sx&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/post-default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Vue2双端diff算法学习"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-07-25 17:14" pubdate>
+          2023年7月25日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          76 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Vue2双端diff算法学习</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>Vue2 的双端 diff 算法学习。</p>
+<p>篇幅原因，本文并不会介绍虚拟 DOM 树是如何生成的，仅讲解在数据更新时，是如何比较两颗虚拟 DOM 树并更新真实 DOM 的，主要实现 Vue2 源码中的 <code>patchVnode</code>、<code>updateChildren</code> 函数</p>
+<h1 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h1><h2 id="diff-算法作用"><a href="#diff-算法作用" class="headerlink" title="diff 算法作用"></a>diff 算法作用</h2><p>聊 diff 算法前得认识一下它是干嘛的。</p>
+<p>我们知道在网页运行中，我们改变一些数据，它们可能会影响到 DOM 树。如何在页面中展示最新的数据呢，最简单的方式就是整棵树推到重建，当然这样会导致大量的浪费，所以 Vue 使用虚拟 DOM 保存页面中 DOM 树的状态，在数据变化后，构建一棵新的虚拟 DOM 树，找到前后两颗树的不同之处，针对性地更新真实 DOM。</p>
+<p>而如何找到两颗树的不同之处，减少 DOM 元素的销毁与重建，就是 diff 算法的作用</p>
+<h2 id="虚拟-DOM"><a href="#虚拟-DOM" class="headerlink" title="虚拟 DOM"></a>虚拟 DOM</h2><p>虚拟 DOM，又称虚拟节点(vnode)，简单来说就是包含 DOM 元素信息的对象，一般由 <code>h</code> 函数创建，下面这个对象就可以看成是一个虚拟节点</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> vnode = &#123;<br>    <span class="hljs-attr">tag</span>: <span class="hljs-string">&#x27;div&#x27;</span>, <span class="hljs-comment">// 标签类型</span><br>    <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-comment">// 文本内容</span><br>    <span class="hljs-attr">children</span>: <span class="hljs-literal">undefined</span>, <span class="hljs-comment">// 子节点</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>对于这段 HTML</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>a<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>b<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>c<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>转换成 vnode 是这样的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> vnode = &#123;<br>    <span class="hljs-attr">tag</span>: <span class="hljs-string">&#x27;div&#x27;</span>, <span class="hljs-comment">// 标签类型</span><br>    <span class="hljs-attr">text</span>: <span class="hljs-literal">undefined</span>, <span class="hljs-comment">// 文本内容</span><br>    <span class="hljs-attr">children</span>: [ <span class="hljs-comment">// 子节点</span><br>        &#123;<br>            <span class="hljs-attr">tag</span>: <span class="hljs-string">&#x27;p&#x27;</span>,<br>            <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;a&#x27;</span>,<br>            <span class="hljs-attr">children</span>: <span class="hljs-literal">undefined</span>,<br>        &#125;,<br>        &#123;<br>            <span class="hljs-attr">tag</span>: <span class="hljs-string">&#x27;p&#x27;</span>,<br>            <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;b&#x27;</span>,<br>            <span class="hljs-attr">children</span>: <span class="hljs-literal">undefined</span>,<br>        &#125;,<br>        &#123;<br>            <span class="hljs-attr">tag</span>: <span class="hljs-string">&#x27;p&#x27;</span>,<br>            <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;c&#x27;</span>,<br>            <span class="hljs-attr">children</span>: <span class="hljs-literal">undefined</span>,<br>        &#125;,<br>    ],<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>因为我们需要通过虚拟节点去操作真实 DOM，所以 vnode 身上有个 elm 属性指向真实的 DOM 元素。而且在之后的 diff 算法中，还会用到一个 key 来对节点进行唯一标识，所以下文中的 vnode 是这样的对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> vnode = &#123;<br>    <span class="hljs-attr">tag</span>: <span class="hljs-string">&#x27;div&#x27;</span>, <span class="hljs-comment">// 标签类型</span><br>    <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-comment">// 文本内容</span><br>    <span class="hljs-attr">children</span>: <span class="hljs-literal">undefined</span>, <span class="hljs-comment">// 子节点</span><br>    <span class="hljs-attr">elm</span>: <span class="hljs-literal">undefined</span>, <span class="hljs-comment">// 对应的真实DOM</span><br>    <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-comment">// 唯一标识</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Vue 的虚拟节点还有很多属性，不过与 diff 算法无关，就不列举了</p>
+<blockquote>
+<p>说明一点，虚拟节点的 text 和 children 不会同时有值。在有 children 属性的情况下，text 中的内容会转化为一个文本节点置入 children 数组中</p>
+</blockquote>
+<h2 id="预备函数"><a href="#预备函数" class="headerlink" title="预备函数"></a>预备函数</h2><p>为了使等会的代码实现更简单，我们准备几个函数，功能不难，直接贴代码了</p>
+<p>我们首先需要就是一个将虚拟节点转换为真实 DOM 的函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 根据虚拟节点创建真实节点</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">createElement</span>(<span class="hljs-params">vnode</span>) &#123;<br>    <span class="hljs-keyword">const</span> dom = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(vnode.<span class="hljs-property">tag</span>)<br>    <span class="hljs-keyword">if</span> (vnode.<span class="hljs-property">children</span>) &#123;<br>        <span class="hljs-comment">// 包含子节点，递归创建</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; vnode.<span class="hljs-property">children</span>.<span class="hljs-property">length</span>; i++) &#123;<br>            <span class="hljs-keyword">const</span> childDom = <span class="hljs-title function_">createElement</span>(vnode.<span class="hljs-property">children</span>[i])<br>            dom.<span class="hljs-title function_">appendChild</span>(childDom)<br>        &#125;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-comment">// 内部是文字</span><br>        dom.<span class="hljs-property">innerHTML</span> = vnode.<span class="hljs-property">text</span><br>    &#125;<br>    <span class="hljs-comment">// 补充elm属性</span><br>    vnode.<span class="hljs-property">elm</span> = dom<br>    <span class="hljs-keyword">return</span> dom<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>以及三个工具函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 判断是否未定义</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">isUndef</span>(<span class="hljs-params">v</span>) &#123;<br>    <span class="hljs-keyword">return</span> v === <span class="hljs-literal">undefined</span> || v === <span class="hljs-literal">null</span><br>&#125;<br><span class="hljs-comment">// 判断是否已定义</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">isDef</span>(<span class="hljs-params">v</span>) &#123;<br>    <span class="hljs-keyword">return</span> v !== <span class="hljs-literal">undefined</span> &amp;&amp; v !== <span class="hljs-literal">null</span><br>&#125;<br><span class="hljs-comment">// 检查是否可复用</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">checkSameVnode</span>(<span class="hljs-params">a, b</span>) &#123;<br>    <span class="hljs-keyword">return</span> a.<span class="hljs-property">tag</span> === b.<span class="hljs-property">tag</span> &amp;&amp; a.<span class="hljs-property">key</span> === b.<span class="hljs-property">key</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="patchVnode"><a href="#patchVnode" class="headerlink" title="patchVnode"></a>patchVnode</h1><p>当数据更新后，Vue 创建出一棵新 vnode，然后执行 <code>patchVnode</code> 函数比较新老两个虚拟节点的不同之处，然后根据情况进行处理</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">patchVnode</span>(<span class="hljs-params">newVnode, oldVnode</span>) &#123;&#125;<br></code></pre></td></tr></table></figure>
+
+<p>首先判断新旧两个虚拟节点是同一对象，如果是的话就不用处理</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">if</span> (oldVnode === newVnode) <span class="hljs-keyword">return</span><br></code></pre></td></tr></table></figure>
+
+<p>然后将旧节点的 DOM 元素赋给新节点，并获取新旧节点的 children 属性</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> elm = (newVnode.<span class="hljs-property">elm</span> = oldVnode.<span class="hljs-property">elm</span>)<br><span class="hljs-keyword">let</span> oldCh = oldVnode.<span class="hljs-property">children</span><br><span class="hljs-keyword">let</span> newCh = newVnode.<span class="hljs-property">children</span><br></code></pre></td></tr></table></figure>
+
+<p>这里可以直接赋值是因为调用 patchVnode 的新旧节点它们的 tag 与 key 是一定相同的，在下文会有讲解</p>
+<p>然后根据两个节点内容，决定如何更新 DOM</p>
+<ol>
+<li>新旧两个节点内容都是文本。修改文本即可</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">if</span> (<span class="hljs-title function_">isUndef</span>(oldCh) &amp;&amp; <span class="hljs-title function_">isUndef</span>(newCh)) &#123;<br>    <span class="hljs-keyword">if</span> (newVnode.<span class="hljs-property">text</span> !== oldVnode.<span class="hljs-property">text</span>) &#123;<br>        elm.<span class="hljs-property">innerText</span> = newVnode.<span class="hljs-property">text</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>旧节点有子节点，新节点内容是文本。清空旧节点内容，改为文本</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">if</span> (<span class="hljs-title function_">isDef</span>(oldCh) &amp;&amp; <span class="hljs-title function_">isUndef</span>(newCh)) &#123;<br>    elm.<span class="hljs-property">innerHTML</span> = newVnode.<span class="hljs-property">text</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>旧节点内容是文本，新节点有子节点。清空旧节点内容，遍历新节点生成子 DOM 元素插入节点中</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">if</span> (<span class="hljs-title function_">isUndef</span>(oldCh) &amp;&amp; <span class="hljs-title function_">isDef</span>(newCh)) &#123;<br>    elm.<span class="hljs-property">innerHTML</span> = <span class="hljs-string">&#x27;&#x27;</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>, n = newCh.<span class="hljs-property">length</span>; i &lt; n; i++)&#123;<br>        elm.<span class="hljs-title function_">appendChild</span>(<span class="hljs-title function_">createElement</span>(newCh[i]))<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>新旧节点都有子节点。调用 <code>updateChildren</code> 来处理，该函数在下一章讲解</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">if</span> (<span class="hljs-title function_">isDef</span>(oldCh) &amp;&amp; <span class="hljs-title function_">isDef</span>(newCh)) &#123;<br>    <span class="hljs-title function_">updateChildren</span>(elm, oldCh, newCh)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>情况 4 可以与情况 3 的处理一样，清空旧节点，然后遍历生成新 DOM。但是我们要知道，创建 DOM 元素是一件非常耗时的工作，而且新旧子节点在大多时候都是相同的，如果可以复用，将极大优化我们的性能。</p>
+<p>那我们要如何判定一个节点是否可以复用呢？</p>
+<p>这就需要 Vue 的使用者来帮忙了，使用者在节点上定义 key 属性，告诉 Vue 哪些节点可以复用</p>
+<p><strong>只要标签类型与 key 值都相等，就说明当前元素可以被复用</strong></p>
+<p>然而在我们的项目中，一般只有在 v-for 中才设置 key，其他节点都没设置 key</p>
+<p>其实<strong>没有设置 key 的节点，它们的 key 值默认相等</strong></p>
+<p>事实也是如此，我们项目中大部分元素都可以复用，只有 v-for 生成的子元素，它依赖的数组可能发生一些较复杂的变化，所以才需要明确标注 key 值，以帮助 Vue 尽可能地复用节点。</p>
+<blockquote>
+<p>patchVnode 的内容当然不止这些，还有样式、类名、props等数据的对比更换，篇幅原因本文将其省略了。</p>
+</blockquote>
+<h1 id="updateChildren"><a href="#updateChildren" class="headerlink" title="updateChildren"></a>updateChildren</h1><h2 id="为什么采用双端-diff"><a href="#为什么采用双端-diff" class="headerlink" title="为什么采用双端 diff"></a>为什么采用双端 diff</h2><p>好了，Vue 的使用者为每个节点的设置了 key，我们要如何从老节点中找到 key 相等的节点复用元素呢？</p>
+<p>简单的方式就是穷举遍历，对于每个新节点的 key 遍历所有老节点，找到了就移动到首位，没找到就创建添加。</p>
+<p>然而这明显有优化的空间，Vue 实现这部分功能时借鉴了 snabbdom 的双端 diff 算法，因为此算法将我们平时操作数组常见的 4 种情况抽离了出来，涵盖了我们业务中的大多数场景，将 O(n<sup>2</sup>) 的时间复杂度降到了 O(n)</p>
+<p>接下来我们来学习这是如何实现的</p>
+<h2 id="函数实现"><a href="#函数实现" class="headerlink" title="函数实现"></a>函数实现</h2><p>函数实现较为复杂，我直接把完整的代码放上来，再带领大家一段段解读</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 三个参数为：父DOM元素，旧的子节点数组，新的子节点数组</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">updateChildren</span>(<span class="hljs-params">parentElm, oldCh, newCh</span>) &#123;<br>    <span class="hljs-comment">// 旧前索引</span><br>    <span class="hljs-keyword">let</span> oldStartIdx = <span class="hljs-number">0</span><br>    <span class="hljs-comment">// 新前索引</span><br>    <span class="hljs-keyword">let</span> newStartIdx = <span class="hljs-number">0</span><br>    <span class="hljs-comment">// 旧后索引</span><br>    <span class="hljs-keyword">let</span> oldEndIdx = oldCh.<span class="hljs-property">length</span> - <span class="hljs-number">1</span><br>    <span class="hljs-comment">// 新后索引</span><br>    <span class="hljs-keyword">let</span> newEndIdx = newCh.<span class="hljs-property">length</span> - <span class="hljs-number">1</span><br>    <span class="hljs-comment">// 四个索引对应节点</span><br>    <span class="hljs-keyword">let</span> oldStartVnode = oldCh[<span class="hljs-number">0</span>]<br>    <span class="hljs-keyword">let</span> newStartVnode = newCh[<span class="hljs-number">0</span>]<br>    <span class="hljs-keyword">let</span> oldEndVnode = oldCh[oldEndIdx]<br>    <span class="hljs-keyword">let</span> newEndVnode = newCh[newEndIdx]<br><br>    <span class="hljs-keyword">let</span> keyMap<br><br>    <span class="hljs-comment">// 开始循环</span><br>    <span class="hljs-keyword">while</span> (oldStartIdx &lt;= oldEndIdx &amp;&amp; newStartIdx &lt;= newEndIdx) &#123;<br>        <span class="hljs-comment">// 跳过空节点 (和最后一种情况有关)</span><br>        <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isUndef</span>(oldStartVnode)) &#123;<br>            oldStartVnode = oldCh[++oldStartIdx]<br>        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isUndef</span>(oldEndVnode)) &#123;<br>            oldEndVnode = oldCh[--oldEndIdx]<br>        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-title function_">checkSameVnode</span>(oldStartVnode, newStartVnode)) &#123;<br>            <span class="hljs-comment">// 情况1</span><br>            <span class="hljs-comment">// 旧前和新前相等，不需要移动</span><br>            <span class="hljs-title function_">patchVnode</span>(newStartVnode, oldStartVnode)<br>            oldStartVnode = oldCh[++oldStartIdx]<br>            newStartVnode = newCh[++newStartIdx]<br>        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-title function_">checkSameVnode</span>(oldEndVnode, newEndVnode)) &#123;<br>            <span class="hljs-comment">// 情况2</span><br>            <span class="hljs-comment">// 旧后和新后相等，也不需要移动</span><br>            <span class="hljs-title function_">patchVnode</span>(newEndVnode, oldEndVnode)<br>            oldEndVnode = oldCh[--oldEndIdx]<br>            newEndVnode = newCh[--newEndIdx]<br>        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-title function_">checkSameVnode</span>(oldStartVnode, newEndVnode)) &#123;<br>            <span class="hljs-comment">// 情况3</span><br>            <span class="hljs-comment">// 旧前和新后相等</span><br>            <span class="hljs-comment">// 旧序列的第一个节点，变成了新序列的最后一个节点</span><br>            <span class="hljs-comment">// 需要将这个节点移动到旧序列最后一个节点的后面</span><br>            <span class="hljs-comment">// 也就是最后一个节点的下一个节点的前面</span><br>            parentElm.<span class="hljs-title function_">insertBefore</span>(oldStartVnode.<span class="hljs-property">elm</span>, oldEndVnode.<span class="hljs-property">elm</span>.<span class="hljs-property">nextSibling</span>)<br>            <span class="hljs-title function_">patchVnode</span>(newEndVnode, oldStartVnode)<br>            oldStartVnode = oldCh[++oldStartIdx]<br>            newEndVnode = newCh[--newEndIdx]<br>        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-title function_">checkSameVnode</span>(oldEndVnode, newStartVnode)) &#123;<br>            <span class="hljs-comment">// 情况4</span><br>            <span class="hljs-comment">// 旧后和新前相等</span><br>            <span class="hljs-comment">// 旧序列的最后一个节点，变成了新序列的第一个节点</span><br>            <span class="hljs-comment">// 需要将这个节点移动到旧序列第一个节点的前面</span><br>            parentElm.<span class="hljs-title function_">insertBefore</span>(oldEndVnode.<span class="hljs-property">elm</span>, oldStartVnode.<span class="hljs-property">elm</span>)<br>            <span class="hljs-title function_">patchVnode</span>(newStartVnode, oldEndVnode)<br>            oldEndVnode = oldCh[--oldEndIdx]<br>            newStartVnode = newCh[++newStartIdx]<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-comment">// 以上四种情况都不符合</span><br>            <span class="hljs-comment">// 制作旧节点key的映射对象</span><br>            <span class="hljs-comment">// 键为 key，值为 索引</span><br>            <span class="hljs-keyword">if</span> (!keyMap) &#123;<br>                keyMap = &#123;&#125;<br>                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = oldStartIdx; i &lt;= oldEndIdx; i++) &#123;<br>                    keyMap[oldCh[i].<span class="hljs-property">key</span>] = i<br>                &#125;<br>            &#125;<br>            <span class="hljs-comment">// 寻找当前新节点在keyMap中映射的位置序号</span><br>            <span class="hljs-keyword">const</span> idxInOld = keyMap[newStartVnode.<span class="hljs-property">key</span>]<br>            <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isUndef</span>(idxInOld)) &#123;<br>                <span class="hljs-comment">// 没有找到，表示他是全新的项</span><br>                <span class="hljs-comment">// 转化为DOM节点，加入旧序列第一个节点的前面</span><br>                parentElm.<span class="hljs-title function_">insertBefore</span>(<span class="hljs-title function_">createElement</span>(newStartVnode), oldStartVnode.<span class="hljs-property">elm</span>)<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-comment">// 不是全新的项，需要移动</span><br>                <span class="hljs-keyword">const</span> oldVnode = oldCh[idxInOld]<br>                <span class="hljs-comment">// 移动到旧序列第一个节点之前</span><br>                parentElm.<span class="hljs-title function_">insertBefore</span>(oldVnode.<span class="hljs-property">elm</span>, oldStartVnode.<span class="hljs-property">elm</span>)<br>                <span class="hljs-title function_">patchVnode</span>(oldVnode, newStartVnode)<br>                <span class="hljs-comment">// 把这项设置成空，循环时遇到时跳过</span><br>                oldCh[idxInOld] = <span class="hljs-literal">undefined</span><br>            &#125;<br>            <span class="hljs-comment">// 当前新节点处理完毕，下一轮循环处理下一个新节点</span><br>            newStartVnode = newCh[++newStartIdx]<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">// 循环结束了，start还是比end小，说明有节点没有处理到</span><br>    <span class="hljs-keyword">if</span> (newStartIdx &lt;= newEndIdx) &#123;<br>        <span class="hljs-comment">// 新节点没有处理到，则创建按DOM添加到新序列最后一个节点的前面</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = newStartIdx; i &lt;= newEndIdx; i++) &#123;<br>            <span class="hljs-comment">// insertBefore方法传入null则添加到队尾</span><br>            <span class="hljs-keyword">const</span> before = newCh[newEndIdx + <span class="hljs-number">1</span>]?.<span class="hljs-property">elm</span> || <span class="hljs-literal">null</span><br>            parentElm.<span class="hljs-title function_">insertBefore</span>(<span class="hljs-title function_">createElement</span>(newCh[i]), before)<br>        &#125;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (oldStartIdx &lt;= oldEndIdx) &#123;<br>        <span class="hljs-comment">// 旧节点没有处理到，删除</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = oldStartIdx; i &lt;= oldEndIdx; i++) &#123;<br>            parentElm.<span class="hljs-title function_">removeChild</span>(oldCh[i].<span class="hljs-property">elm</span>)<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>代码注释中及下文的新&#x2F;旧<strong>序列</strong>，仅包含从新&#x2F;旧<strong>开始索引到结束索引间的节点</strong>，也就是还未处理的节点序列，而不是整个子节点数组。</p>
+</blockquote>
+<h2 id="根据例子讲解"><a href="#根据例子讲解" class="headerlink" title="根据例子讲解"></a>根据例子讲解</h2><p>我们以下图的例子，来讲解这个函数的运行流程（方框中的内容为子节点的 key，所有节点标签相同）</p>
+<p>首先定义了 8 个变量，表示新旧序列的开始和结束位置的索引与节点</p>
+<p><img src="/Vue2%E5%8F%8C%E7%AB%AFdiff%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/10c92251651c4cc28f556696661d597btplv-k3u1fbpfcp-zoom-in-crop-mark4536000.awebp" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>然后开始循环，初始时节点都不为空</p>
+<p><strong>第一次循环命中情况 1，旧前与新前(key)相等</strong></p>
+<p>这表示旧序列的第一个节点到新序列仍是第一个节点，也就不需要移动，但还需要比较一下节点的内容有没有改变(patchVnode)，并且让新旧开始索引都前进一步</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 比较节点的数据及子节点，并且将旧节点的DOM赋给新节点</span><br><span class="hljs-title function_">patchVnode</span>(newStartVnode, oldStartVnode)<br>oldStartVnode = oldCh[++oldStartIdx]<br>newStartVnode = newCh[++newStartIdx]<br></code></pre></td></tr></table></figure>
+
+<p><img src="/Vue2%E5%8F%8C%E7%AB%AFdiff%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/48585f8d2ded4db7bc73b5b566b811c1tplv-k3u1fbpfcp-zoom-in-crop-mark4536000.awebp" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>情况 1 是业务中最常见的，表示从前至后两两比较。一般把商品添加到购物车末尾，或是没有设置 key 值的子节点，都是依靠情况 1 把可复用的节点筛选完毕。</p>
+<p><strong>第二次循环命中情况 2，旧后和新后相等</strong></p>
+<p>这表示序列的末尾节点到新序列仍是末尾节点，也不需要移动，然后让新旧结束索引都后退一步</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title function_">patchVnode</span>(newEndVnode, oldEndVnode)<br>oldEndVnode = oldCh[--oldEndIdx]<br>newEndVnode = newCh[--newEndIdx]<br></code></pre></td></tr></table></figure>
+
+<p><img src="/Vue2%E5%8F%8C%E7%AB%AFdiff%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/417842734e2b4209870a8717f4452079tplv-k3u1fbpfcp-zoom-in-crop-mark4536000.awebp" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>情况 2 是情况 1 的补充，表示从后向前两两比较。有时会把新发布的评论插到开头，或者从购物车删除了一些商品，这时仅依靠情况 1 就无法迅速的筛选可复用节点，所以需要从后向前比较来配合。</p>
+<p><strong>第三次循环命中情况 3，旧前和新后相等</strong></p>
+<p>这表示旧序列的第一个节点，变成了新序列的最后一个节点。需要将这个节点移动到序列的末尾，也就是旧序列末尾节点的下一个节点(节点 e)的前面</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">parentElm.<span class="hljs-title function_">insertBefore</span>(oldStartVnode.<span class="hljs-property">elm</span>, oldEndVnode.<span class="hljs-property">elm</span>.<span class="hljs-property">nextSibling</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="/Vue2%E5%8F%8C%E7%AB%AFdiff%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/8482cb53c49c4be7bf0ea64c306c8852tplv-k3u1fbpfcp-zoom-in-crop-mark4536000.awebp" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>然后比较新旧节点，修改索引</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title function_">patchVnode</span>(newEndVnode, oldStartVnode)<br>oldStartVnode = oldCh[++oldStartIdx]<br>newEndVnode = newCh[--newEndIdx]<br></code></pre></td></tr></table></figure>
+
+<p><img src="/Vue2%E5%8F%8C%E7%AB%AFdiff%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/c11982331fb1458ba3725e4547d88fe4tplv-k3u1fbpfcp-zoom-in-crop-mark4536000.awebp" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>情况 3 主要处理数组反转的情况，比如升序改降序，每个起始节点被移动到了末尾的位置，使用此情况将它们重新排序。</p>
+<p><strong>第四次循环命中情况 4，旧后与新前相等</strong></p>
+<p>这表示旧序列的最后一个节点，变成了新序列的第一个节点。需要将这个节点移动到序列的开头，也就是旧序列开始节点（节点 c）的前面</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">parentElm.<span class="hljs-title function_">insertBefore</span>(oldStartVnode.<span class="hljs-property">elm</span>, oldEndVnode.<span class="hljs-property">elm</span>.<span class="hljs-property">nextSibling</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="/Vue2%E5%8F%8C%E7%AB%AFdiff%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/4bcde48abb8c44b8931081e0eecd21b6tplv-k3u1fbpfcp-zoom-in-crop-mark4536000.awebp" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>到这里说一下，图上标注的是节点 a 的后面，是因为节点 b 被移动到了末尾</p>
+<p><strong>节点的移动都是根据旧节点来定位的，如果想把一个节点放到序列的开头，就放到旧序列开始节点的前面；如果想把一个节点放到序列的末尾，就要放到旧序列结束节点的下一个节点的前面</strong></p>
+<p>然后也是比较新旧节点，修改索引，之后是下图情况</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title function_">patchVnode</span>(newStartVnode, oldEndVnode)<br>oldEndVnode = oldCh[--oldEndIdx]<br>newStartVnode = newCh[++newStartIdx]<br></code></pre></td></tr></table></figure>
+
+<p><img src="/Vue2%E5%8F%8C%E7%AB%AFdiff%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/c0298603a19645be9b2ac4ea6352b8aftplv-k3u1fbpfcp-zoom-in-crop-mark4536000.awebp" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>情况 4 是情况 3 的补充，避免反转数组后又插入&#x2F;删除了节点导致情况 3 无法匹配，本例就是这个情况。</p>
+<p><strong>第五次循环，4 种情况均为未命中</strong></p>
+<p>很遗憾，无法迅速锁定节点的位置，只能用传统的方式进行遍历</p>
+<p>我们这里选择了以空间换时间的方式，定义了 keyMap，将旧序列节点的 key 与索引存起来，然后使用新开始节点的 key 去查找。</p>
+<p>如果没找到，说明这是一个新节点，创建节点并放到开头，也就是插入到旧序列开始节点的前面</p>
+<p>但如果找到了，则同样移动节点到序列开头，然后将对应的旧节点索引置空，在以后循环遇到空的旧节点就跳过了</p>
+<p>本例中是未找到的情况，此节点处理完毕，新开始索引加一，超过了新结束索引，不满足循环条件，退出循环</p>
+<p><img src="/Vue2%E5%8F%8C%E7%AB%AFdiff%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/e0e823d81bb94d63adff7cd69006e3f4tplv-k3u1fbpfcp-zoom-in-crop-mark4536000.awebp" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>然而，节点 c 并没有被处理，此时的 DOM 序列为：a,d,f,c,b,e</p>
+<p>所以在循环之后，要检测是否有未处理的节点，如果是旧节点未处理，删除即可；</p>
+<p>如果是新节点未处理，则创建新节点插入到<strong>旧序列的末尾</strong>或者<strong>旧序列的开头</strong>，二者其实是一个位置</p>
+<p>我们假设旧节点中没有 c，则在第四次循环后就会出现以下情况（第四次循环命中的是情况 1）</p>
+<p><img src="/Vue2%E5%8F%8C%E7%AB%AFdiff%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/a31a7f766b8c48b78e4227d2ddb476f1tplv-k3u1fbpfcp-zoom-in-crop-mark4536000.awebp" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>如果把 f 放到序列的开头，就是旧开始节点（节点 e）的前面</p>
+<p>而如果把 f 放到序列的末尾，也就是旧结束节点的下一个节点（节点 e）的前面</p>
+<p>此时旧序列就是一个点，不分开头和结尾，只要保证新增节点序列按序添加就好了</p>
+<p>至此，双端 diff 算法就讲完了</p>
+<h1 id="Vue-中的-key"><a href="#Vue-中的-key" class="headerlink" title="Vue 中的 key"></a>Vue 中的 key</h1><p>学完 diff 算法，再聊聊 key 的作用</p>
+<h2 id="v-for-中的-key"><a href="#v-for-中的-key" class="headerlink" title="v-for 中的 key"></a>v-for 中的 key</h2><p>上面讲的都是有 key 情况下，diff 算法能够迅速找到新旧序列中的同一节点，以较小的代价完成更新。</p>
+<p>而如果在 v-for 中不设置 key 呢？</p>
+<p>假设我们在数组头部插入了一个新节点，然后开始循环，每次循环都命中情况 1，尝试“复用”此节点。</p>
+<p>但是，在对比新旧节点的内容时，都会发现内容不同，需要用新节点的内容替换旧节点。这只是复用了 DOM 的外壳，节点的内容、数据以及该节点的子节点全都要更改。</p>
+<p>相比有 key 时的只添加一个新节点，无 key 则将所有节点都修改一遍。</p>
+<h2 id="v-if-自带-key"><a href="#v-if-自带-key" class="headerlink" title="v-if 自带 key"></a>v-if 自带 key</h2><p>v-for 以外的元素我们一般是不设置 key 的，但是如果子元素中有 v-if 的话，就像下面这个场景（abcd是内容，并不是 key），更新子元素又会复现上一节的情况。</p>
+<p><img src="/Vue2%E5%8F%8C%E7%AB%AFdiff%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/b182b8cc704f4e36b3c980d77a21e0betplv-k3u1fbpfcp-zoom-in-crop-mark4536000.awebp" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>然而 Vue 官方也考虑到了这点，会为 v-if 的元素加上利用 hash 函数生成的唯一 key</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 以下出自 v2 源码</span><br><span class="hljs-keyword">var</span> needsKey = !!el.<span class="hljs-property">if</span> <br>……<br>needsKey ? <span class="hljs-string">&#x27;,null,false,&#x27;</span> + <span class="hljs-title function_">hash</span>(generatedSlots) : <span class="hljs-string">&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="key-的另一个用法"><a href="#key-的另一个用法" class="headerlink" title="key 的另一个用法"></a>key 的另一个用法</h2><p>顺便再提一嘴，key 可以绑到任意元素上，当 key 发生变化时，会导致 DOM 的销毁与重建，一般用来重复触发动画或生命周期钩子。</p>
+<p>详情可看<a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/api/#key">官方链接</a></p>
+<br />
+
+<br />
+
+<p>参考：</p>
+<p>[1]. <a target="_blank" rel="noopener" href="https://juejin.cn/post/7120919895713251335">聊聊 Vue2 是如何更新节点的 | diff 算法详解 - 掘金 (juejin.cn)</a></p>
+<p>[2]. <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000043632772#item-8">javascript - Vue2 diff 算法图解 - Vuejs源码解析 - SegmentFault 思否</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Vue2/" class="category-chain-item">Vue2</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/diff/">#diff</a>
+      
+        <a href="/tags/%E5%8F%8C%E7%AB%AF%E7%AE%97%E6%B3%95/">#双端算法</a>
+      
+        <a href="/tags/%E6%BA%90%E7%A0%81/">#源码</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Vue2双端diff算法学习</div>
+      <div>https://suixiang5731.github.io/2023/07/25/Vue2双端diff算法学习/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>suixiang5731</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年7月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/07/26/hexo%E5%8D%9A%E5%AE%A2GitHubPage%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D%E5%BC%80%E5%90%AFHttps/" title="Hexo结合GitHubPage自定义域名开启Https">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Hexo结合GitHubPage自定义域名开启Https</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/07/10/JavaScript%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE%E5%AD%A6%E4%B9%A0/" title="JavaScript原型与原型链学习">
+                        <span class="hidden-mobile">JavaScript原型与原型链学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
