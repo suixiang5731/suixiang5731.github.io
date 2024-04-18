@@ -23,28 +23,28 @@
 <meta property="og:site_name" content="SxBlog">
 <meta property="og:description" content="一 前言今天我们来深度分析一下 Commonjs 和 Es Module，希望通过本文的学习，能够让大家彻底明白 Commonjs 和 Es Module 原理，能够一次性搞定面试中遇到的大部分有关 Commonjs 和 Es Module 的问题。 老规矩我们带上疑问开始今天的分析🤔🤔🤔：  1 Commonjs 和 Es Module 有什么区别 ？  2 Commonjs 如何解决的循">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://suixiang5731.github.io/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640.webp">
-<meta property="og:image" content="https://suixiang5731.github.io/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146311.webp">
-<meta property="og:image" content="https://suixiang5731.github.io/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146312.webp">
-<meta property="og:image" content="https://suixiang5731.github.io/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146313.webp">
-<meta property="og:image" content="https://suixiang5731.github.io/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146324.webp">
-<meta property="og:image" content="https://suixiang5731.github.io/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146325.webp">
-<meta property="og:image" content="https://suixiang5731.github.io/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146326.webp">
-<meta property="og:image" content="https://suixiang5731.github.io/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146327.webp">
-<meta property="og:image" content="https://suixiang5731.github.io/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146328.webp">
-<meta property="og:image" content="https://suixiang5731.github.io/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146329.webp">
-<meta property="og:image" content="https://suixiang5731.github.io/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-171342721463210.webp">
-<meta property="og:image" content="https://suixiang5731.github.io/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-171342721463211.webp">
-<meta property="og:image" content="https://suixiang5731.github.io/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-171342721463212.webp">
-<meta property="og:image" content="https://suixiang5731.github.io/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-171342721463213.webp">
-<meta property="og:image" content="https://suixiang5731.github.io/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-171342721463214.webp">
+<meta property="og:image" content="https://suixiang5731.github.io/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640.webp">
+<meta property="og:image" content="https://suixiang5731.github.io/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146311.webp">
+<meta property="og:image" content="https://suixiang5731.github.io/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146312.webp">
+<meta property="og:image" content="https://suixiang5731.github.io/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146313.webp">
+<meta property="og:image" content="https://suixiang5731.github.io/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146324.webp">
+<meta property="og:image" content="https://suixiang5731.github.io/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146325.webp">
+<meta property="og:image" content="https://suixiang5731.github.io/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146326.webp">
+<meta property="og:image" content="https://suixiang5731.github.io/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146327.webp">
+<meta property="og:image" content="https://suixiang5731.github.io/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146328.webp">
+<meta property="og:image" content="https://suixiang5731.github.io/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146329.webp">
+<meta property="og:image" content="https://suixiang5731.github.io/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-171342721463210.webp">
+<meta property="og:image" content="https://suixiang5731.github.io/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-171342721463211.webp">
+<meta property="og:image" content="https://suixiang5731.github.io/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-171342721463212.webp">
+<meta property="og:image" content="https://suixiang5731.github.io/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-171342721463213.webp">
+<meta property="og:image" content="https://suixiang5731.github.io/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-171342721463214.webp">
 <meta property="article:published_time" content="2024-04-18T08:38:44.000Z">
 <meta property="article:modified_time" content="2024-04-18T08:41:17.399Z">
 <meta property="article:author" content="suixiang5731">
 <meta property="article:tag" content="webpack">
 <meta property="article:tag" content="面试">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://suixiang5731.github.io/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640.webp">
+<meta name="twitter:image" content="https://suixiang5731.github.io/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640.webp">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -332,7 +332,7 @@
 <p>然后小 A 在 <code>list.js</code> 中，引用 name 属性，</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs auto">console.log(name)<br></code></pre></td></tr></table></figure>
 
-<p><img src="/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
 <p>1.jpg</p>
 <p>打印却发现 name 竟然变成了一个函数。刚开始小 A 不知所措，后来发现在小 B 开发的 <code>home.js</code> 文件中这么写道：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs auto">function name()&#123;    //...&#125;<br></code></pre></td></tr></table></figure>
@@ -342,7 +342,7 @@
 <p>只需要在 home.js 中这么写道：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs auto">(function ()&#123;    function name()&#123;        //...    &#125;&#125;)()<br></code></pre></td></tr></table></figure>
 
-<p><img src="/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146311.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146311.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
 <p>2.jpg</p>
 <p>这样小 A 就能正常在 <code>list.js</code> 中获取 name 属性。但是这只是一个 <code>demo</code> ，我们不能保证在实际开发中情况会更加复杂。所以不使用模块开发会暴露出很多风险。</p>
 <ul>
@@ -353,7 +353,7 @@
 <ul>
 <li>下层 js 能调用上层 js 的方法，但是上层 js 无法调用下层 js 的方法。</li>
 </ul>
-<p><img src="/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146312.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146312.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
 <p>3.jpg</p>
 <p>所以就需要模块化来解决上述的问题，今天我们就重点讲解一下前端模块化的两个重要方案：<strong>Commonjs</strong> 和 <strong>Es Module</strong></p>
 <h2 id="三-Commonjs"><a href="#三-Commonjs" class="headerlink" title="三 Commonjs"></a>三 Commonjs</h2><p><code>Commonjs</code> 的提出，弥补 Javascript 对于模块化，没有统一标准的缺陷。nodejs 借鉴了 <code>Commonjs</code> 的 Module ，实现了良好的模块化管理。</p>
@@ -462,7 +462,7 @@
 </li>
 </ul>
 <p>查找流程图如下所示：</p>
-<p><img src="/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146313.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146313.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
 <p>4.jpg</p>
 <h3 id="3-require-模块引入与处理"><a href="#3-require-模块引入与处理" class="headerlink" title="3 require 模块引入与处理"></a>3 require 模块引入与处理</h3><p>CommonJS 模块同步加载并执行模块文件，CommonJS 模块在执行阶段分析模块依赖，采用<strong>深度优先遍历</strong>（depth-first traversal），执行顺序是父 -&gt; 子 -&gt; 父；</p>
 <p>为了搞清除 require 文件引入流程。我们接下来再举一个例子，这里注意一下细节：</p>
@@ -482,7 +482,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs auto">const a = require(&#x27;./a&#x27;)const b = require(&#x27;./b&#x27;)console.log(&#x27;node 入口文件&#x27;)<br></code></pre></td></tr></table></figure>
 
 <p>接下来终端输入 <code>node main.js</code> 运行 <code>main.js</code>，效果如下：</p>
-<p><img src="/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146324.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146324.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
 <p>5.jpg</p>
 <p>从上面的运行结果可以得出以下结论：</p>
 <ul>
@@ -541,13 +541,13 @@
 <li>如上第 ⑤ 的时候，当执行 b.js 模块的时候，因为 a.js 还没有导出 <code>say</code> 方法，所以 b.js 同步上下文中，获取不到 say。</li>
 </ul>
 <p>我用一幅流程图描述上述过程：</p>
-<p><img src="/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146325.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146325.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
 <p>15.jpg</p>
 <p>为了进一步验证上面所说的，我们改造一下 <code>b.js</code> 如下:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs auto">const say = require(&#x27;./a&#x27;)const  object = &#123;   name:&#x27;《React进阶实践指南》&#x27;,   author:&#x27;我不是外星人&#x27;&#125;console.log(&#x27;我是 b 文件&#x27;)console.log(&#x27;打印 a 模块&#x27; , say)setTimeout(()=&gt;&#123;    console.log(&#x27;异步打印 a 模块&#x27; , say)&#125;,0)module.exports = function()&#123;    return object&#125;<br></code></pre></td></tr></table></figure>
 
 <p>打印结果：</p>
-<p><img src="/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146326.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146326.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
 <p>6.jpg</p>
 <ul>
 <li><p>第一次打印 say 为空对象。</p>
@@ -575,7 +575,7 @@
 <li>如上在 a.js 模块的 say 函数中，用 require 动态加载 b.js 模块。然后执行在 main.js 中执行 a.js 模块的 say 方法。</li>
 </ul>
 <p>打印结果如下：</p>
-<p><img src="/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146327.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146327.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
 <p>7.jpg</p>
 <p>require 本质上就是一个函数，那么函数可以在任意上下文中执行，来自由地加载其他模块的属性方法。</p>
 <h3 id="5-exports-和-module-exports"><a href="#5-exports-和-module-exports" class="headerlink" title="5 exports 和 module.exports"></a>5 exports 和 module.exports</h3><p>系统分析完 <code>require</code> ，接下来我们分析一下，<code>exports</code> 和 <code>module.exports</code>，首先看一下两个的用法。</p>
@@ -586,7 +586,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs auto">const a = require(&#x27;./a&#x27;)console.log(a)<br></code></pre></td></tr></table></figure>
 
 <p><strong>打印结果：</strong></p>
-<p><img src="/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146328.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146328.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
 <p>8.jpg</p>
 <ul>
 <li>exports 就是传入到当前模块内的一个对象，本质上就是 <code>module.exports</code>。</li>
@@ -595,14 +595,14 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs auto">exports=&#123;    name:&#x27;《React进阶实践指南》&#x27;,    author:&#x27;我不是外星人&#x27;,    say()&#123;        console.log(666)    &#125;&#125;<br></code></pre></td></tr></table></figure>
 
 <p><strong>打印结果：</strong></p>
-<p><img src="/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146329.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-17134272146329.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
 <p>9.jpg</p>
 <p>理想情况下是通过 <code>exports = &#123;&#125;</code> 直接赋值，不需要在  <code>exports.a = xxx</code>  每一个属性，但是如上我们看到了这种方式是无效的。为什么会这样？实际这个是 js 本身的特性决定的。</p>
 <p>通过上述讲解都知道 exports ， module 和 require 作为形参的方式传入到 js 模块中。我们直接 <code>exports = &#123;&#125;</code>  修改 exports ，等于重新赋值了形参，那么会重新赋值一份，但是不会在引用原来的形参。举一个简单的例子</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs auto">function wrap (myExports)&#123;    myExports=&#123;       name:&#x27;我不是外星人&#x27;   &#125;&#125;let myExports = &#123;    name:&#x27;alien&#x27;&#125;wrap(myExports)console.log(myExports)<br></code></pre></td></tr></table></figure>
 
 <p><strong>打印：</strong></p>
-<p><img src="/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-171342721463210.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-171342721463210.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
 <p>10.jpg</p>
 <p>我们期望修改 myExports ，但是没有任何作用。</p>
 <p>假设 <code>wrap</code> 就是 Commonjs 规范下的包装函数，我们的 js 代码就是包装函数内部的内容。当我们把  myExports 对象传进去，但是直接赋值 <code>myExports = &#123; name:&#39;我不是外星人&#39; &#125;</code> 没有任何作用，相等于内部重新声明一份 <code>myExports</code> 而和外界的 myExports 断绝了关系。所以解释了为什么不能 <code>exports=&#123;...&#125;</code> 直接赋值。</p>
@@ -610,7 +610,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs auto">function wrap (myExports)&#123;    myExports.name=&#x27;我不是外星人&#x27;&#125;<br></code></pre></td></tr></table></figure>
 
 <p><strong>打印：</strong></p>
-<p><img src="/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-171342721463211.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-171342721463211.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
 <p>11.jpg</p>
 <h4 id="module-exports-使用"><a href="#module-exports-使用" class="headerlink" title="module.exports 使用"></a>module.exports 使用</h4><p>module.exports 本质上就是 exports ，我们用 module.exports 来实现如上的导出。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs auto">module.exports =&#123;    name:&#x27;《React进阶实践指南》&#x27;,    author:&#x27;我不是外星人&#x27;,    say()&#123;        console.log(666)    &#125;&#125;<br></code></pre></td></tr></table></figure>
@@ -745,7 +745,7 @@
 </li>
 </ul>
 <p>效果如下：</p>
-<p><img src="/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-171342721463212.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-171342721463212.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
 <p>12.jpg</p>
 <h4 id="3-导出绑定"><a href="#3-导出绑定" class="headerlink" title="3 导出绑定"></a>3 导出绑定</h4><p><strong>不能修改import导入的属性</strong></p>
 <p><code>a.js</code></p>
@@ -755,7 +755,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs auto">import &#123;  num , addNumber &#125; from &#x27;./a&#x27;num = 2<br></code></pre></td></tr></table></figure>
 
 <p>如果直接修改，那么会报错。如下所示：</p>
-<p><img src="/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-171342721463213.webp" srcset="/img/loading.gif" lazyload alt="图片"><strong>属性绑定</strong></p>
+<p><img src="/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-171342721463213.webp" srcset="/img/loading.gif" lazyload alt="图片"><strong>属性绑定</strong></p>
 <p>所以可以在 <code>main.js</code> 中这么修改。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs auto">import &#123;  num , addNumber &#125; from &#x27;./a&#x27;console.log(num) // num = 1addNumber()console.log(num) // num = 2<br></code></pre></td></tr></table></figure>
 
@@ -779,7 +779,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs auto">export const name =&#x27;alien&#x27;export default function sayhello()&#123;    console.log(&#x27;hello,world&#x27;)&#125;<br></code></pre></td></tr></table></figure>
 
 <p>打印如下：</p>
-<p><img src="/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-171342721463214.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="/2024/04/18/Commonjs%E5%92%8CEsModule%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/640-171342721463214.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
 <p>13.jpg</p>
 <p>从打印结果可以看出 <code>import()</code>的基本特性。</p>
 <ul>

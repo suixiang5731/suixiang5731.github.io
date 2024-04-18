@@ -23,22 +23,22 @@
 <meta property="og:site_name" content="SxBlog">
 <meta property="og:description" content="Renderer Process 渲染器进程：Chrome 的多进程架构中，每打开一个 tab页 都会独立运行一个渲染器进程，从而保证某一 tab页 无响应或崩溃不会影响其他 tab页 的活动。  Chrome 中的进程与分工 ![Chrome 中的进程与分工-](00Devtools前置知识&#x2F;Chrome 中的进程与分工-.png)   浏览器进程（Browser Process）：控">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://suixiang5731.github.io/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E6%B8%B2%E6%9F%93%E5%99%A8%E8%BF%9B%E7%A8%8B%E4%B8%AD%E7%9A%84%E7%BA%BF%E7%A8%8B.png">
-<meta property="og:image" content="https://suixiang5731.github.io/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/LayoutTree.png">
-<meta property="og:image" content="https://suixiang5731.github.io/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%88%86%E5%B1%82.jpg">
-<meta property="og:image" content="https://suixiang5731.github.io/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E7%BB%98%E5%88%B6.jpg">
-<meta property="og:image" content="https://suixiang5731.github.io/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%85%89%E6%A0%85%E5%8C%96-%E5%88%86%E5%B1%82.jpg">
-<meta property="og:image" content="https://suixiang5731.github.io/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%85%89%E6%A0%85%E5%8C%96-%E5%88%86%E5%B1%822.jpg">
-<meta property="og:image" content="https://suixiang5731.github.io/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%85%89%E6%A0%85%E5%8C%96-%E5%88%86%E5%B1%821.jpg">
-<meta property="og:image" content="https://suixiang5731.github.io/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%85%89%E6%A0%85%E5%8C%96-%E5%88%86%E5%B1%823.jpg">
-<meta property="og:image" content="https://suixiang5731.github.io/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%85%89%E6%A0%85%E5%8C%96-%E5%90%88%E6%88%90.jpg">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/02/16/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E6%B8%B2%E6%9F%93%E5%99%A8%E8%BF%9B%E7%A8%8B%E4%B8%AD%E7%9A%84%E7%BA%BF%E7%A8%8B.png">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/02/16/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/LayoutTree.png">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/02/16/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%88%86%E5%B1%82.jpg">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/02/16/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E7%BB%98%E5%88%B6.jpg">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/02/16/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%85%89%E6%A0%85%E5%8C%96-%E5%88%86%E5%B1%82.jpg">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/02/16/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%85%89%E6%A0%85%E5%8C%96-%E5%88%86%E5%B1%822.jpg">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/02/16/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%85%89%E6%A0%85%E5%8C%96-%E5%88%86%E5%B1%821.jpg">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/02/16/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%85%89%E6%A0%85%E5%8C%96-%E5%88%86%E5%B1%823.jpg">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/02/16/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%85%89%E6%A0%85%E5%8C%96-%E5%90%88%E6%88%90.jpg">
 <meta property="article:published_time" content="2023-02-16T07:23:56.000Z">
 <meta property="article:modified_time" content="2024-04-15T01:49:19.099Z">
 <meta property="article:author" content="suixiang5731">
 <meta property="article:tag" content="Chrome">
 <meta property="article:tag" content="Devtools">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://suixiang5731.github.io/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E6%B8%B2%E6%9F%93%E5%99%A8%E8%BF%9B%E7%A8%8B%E4%B8%AD%E7%9A%84%E7%BA%BF%E7%A8%8B.png">
+<meta name="twitter:image" content="https://suixiang5731.github.io/2023/02/16/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E6%B8%B2%E6%9F%93%E5%99%A8%E8%BF%9B%E7%A8%8B%E4%B8%AD%E7%9A%84%E7%BA%BF%E7%A8%8B.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -303,7 +303,7 @@
 <p><strong>渲染器进程包含主线程（main thread）、工作线程（worker threads）、合成线程（compositor thread）和光栅线程（raster thread）。</strong></p>
 <br>
 
-<p><img src="/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E6%B8%B2%E6%9F%93%E5%99%A8%E8%BF%9B%E7%A8%8B%E4%B8%AD%E7%9A%84%E7%BA%BF%E7%A8%8B.png" srcset="/img/loading.gif" lazyload alt="渲染器进程中的线程"></p>
+<p><img src="/2023/02/16/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E6%B8%B2%E6%9F%93%E5%99%A8%E8%BF%9B%E7%A8%8B%E4%B8%AD%E7%9A%84%E7%BA%BF%E7%A8%8B.png" srcset="/img/loading.gif" lazyload alt="渲染器进程中的线程"></p>
 </blockquote>
 <h2 id="页面渲染步骤"><a href="#页面渲染步骤" class="headerlink" title="页面渲染步骤"></a>页面渲染步骤</h2><p>渲染器进程的核心工作是将 HTML、CSS 和 JavaScript 转换为用户可以与之交互的网页，主要步骤如下：</p>
 <h3 id="1-DOM-解析"><a href="#1-DOM-解析" class="headerlink" title="1.DOM 解析 "></a>1.DOM 解析 <em><Parsing></em></h3><p>渲染进程解析接收到的HTML数据并转化为DOM对象。</p>
@@ -313,33 +313,33 @@
 <p><strong>布局过程中主线程会遍历构建的DOM树，根据DOM节点的计算样式计算出一个布局树（layout tree）</strong></p>
 <br>
 
-<p><img src="/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/LayoutTree.png" srcset="/img/loading.gif" lazyload alt="LayoutTree"></p>
+<p><img src="/2023/02/16/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/LayoutTree.png" srcset="/img/loading.gif" lazyload alt="LayoutTree"></p>
 <br>
 
 <p>布局树上每个节点会有它在页面上的x，y坐标以及盒子大小（bounding box sizes）的具体信息。布局树与先前构建的DOM树差不多，不同的是只有那些可见的节点。</p>
 </blockquote>
 <h3 id="4-分层"><a href="#4-分层" class="headerlink" title="4.分层 "></a>4.分层 <em><Dividing into layers></em></h3><p>分层的作用确定哪些元素需要放置在哪一图层，此过程主线程会遍历布局树来创建一棵层次树（Layer Tree）。在DevTools中这一部分工作叫做 <code>Update Layer Tree</code>。分层与合成（Compositing）息息相关，在后面详细介绍。</p>
 <blockquote>
-<p><img src="/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%88%86%E5%B1%82.jpg" srcset="/img/loading.gif" lazyload alt="分层"></p>
+<p><img src="/2023/02/16/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%88%86%E5%B1%82.jpg" srcset="/img/loading.gif" lazyload alt="分层"></p>
 </blockquote>
 <h3 id="5-绘制"><a href="#5-绘制" class="headerlink" title="5.绘制 "></a>5.绘制 <em><Paint></em></h3><p>有了 DOM、样式和布局信息仍不足以呈现页面。比如某些元素设置了<code>z-index</code>，仅按照 HTML 元素的顺序会导致渲染的结果不正确，所以还需要知道绘制的顺序。主线程会遍历之前的布局树（layout tree）来生成一系列的绘画记录（paint records），从而得到了绘制的顺序。</p>
 <blockquote>
-<p><img src="/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E7%BB%98%E5%88%B6.jpg" srcset="/img/loading.gif" lazyload alt="绘制"></p>
+<p><img src="/2023/02/16/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E7%BB%98%E5%88%B6.jpg" srcset="/img/loading.gif" lazyload alt="绘制"></p>
 </blockquote>
 <h3 id="6-合成"><a href="#6-合成" class="headerlink" title="6.合成 "></a>6.合成 <em><Compositing></em></h3><p>经过上面的步骤，浏览器知道了文档结构、每个元素的样式、页面的几何形状和绘制顺序。浏览器就可以开始绘制页面。而将这些信息转化为显示器的像素的过程叫做 <strong>光栅化</strong>。 光栅化最简单的做法就是只光栅化视口内的内容。如果用户进行了页面滚动，就移动光栅帧（rastered frame）光栅化更多的内容以填充缺失的部分，最初的 Chrome 就是这么做的。对于现代的浏览器来说采取一种更加复杂的做法，叫做合成（compositing）。合成是一种将页面分成若干层，分别对它们进行光栅化，然后在一个单独的线程 — 合成线程（compositor thread）里合成为一个页面的技术。当用户滚动页面时，由于页面各个层都已经被光栅化了，浏览器需要做的只是合成一个新的帧来展示滚动后的效果。动画则可以通过移动图层并合成新帧以相同的方式实现。</p>
 <h2 id="光栅化与合成"><a href="#光栅化与合成" class="headerlink" title="光栅化与合成"></a>光栅化与合成</h2><p>合成的过程类似 Photoshop 将多个图层按顺序叠加后导出最终的图片，图像发生变更也只需要调整对应的图层。合成的详细过程：</p>
 <h3 id="1-分层"><a href="#1-分层" class="headerlink" title="1.  分层 "></a>1.  <strong>分层</strong> <em><Dividing into layers></em></h3><p>合成之前需要主线程先将页面分成若干层。为了确定哪些元素需要放置在哪一层，主线程需要遍历布局树来创建一棵层次树（Layer Tree），在DevTools中这一部分工作叫做 <code>Update Layer Tree</code>。</p>
 <blockquote>
-<p><img src="/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%85%89%E6%A0%85%E5%8C%96-%E5%88%86%E5%B1%82.jpg" srcset="/img/loading.gif" lazyload alt="光栅化-分层"></p>
+<p><img src="/2023/02/16/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%85%89%E6%A0%85%E5%8C%96-%E5%88%86%E5%B1%82.jpg" srcset="/img/loading.gif" lazyload alt="光栅化-分层"></p>
 </blockquote>
 <p>也可以使用 <code>will-change</code> CSS 属性告诉浏览器对其单独分层。你甚至可以给页面上所有的元素一个单独的层，但分层并不是越多越好，当页面的层数超过一定数量后，分层的合成操作会比在每帧中光栅化页面的一小部分还要慢。在 Frames 或 DevTools <code>Layers</code> 面板中可查看网站如何被分层</p>
 <blockquote>
-<p><img src="/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%85%89%E6%A0%85%E5%8C%96-%E5%88%86%E5%B1%822.jpg" srcset="/img/loading.gif" lazyload alt="光栅化-分层2"></p>
-<p><img src="/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%85%89%E6%A0%85%E5%8C%96-%E5%88%86%E5%B1%821.jpg" srcset="/img/loading.gif" lazyload alt="光栅化-分层1"></p>
+<p><img src="/2023/02/16/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%85%89%E6%A0%85%E5%8C%96-%E5%88%86%E5%B1%822.jpg" srcset="/img/loading.gif" lazyload alt="光栅化-分层2"></p>
+<p><img src="/2023/02/16/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%85%89%E6%A0%85%E5%8C%96-%E5%88%86%E5%B1%821.jpg" srcset="/img/loading.gif" lazyload alt="光栅化-分层1"></p>
 </blockquote>
 <h3 id="2-光栅化分层"><a href="#2-光栅化分层" class="headerlink" title="2. 光栅化分层"></a>2. 光栅化分层</h3><p>光栅线程光栅化分层。一旦创建了<code>Layer Tree</code>并确定了绘制顺序，主线程就会向合成线程（compositor thread）提交这些信息。然后合成线程就会光栅化页面的每一层，因为页面的一层可能有整个网页那么大，所以合成器进程需要将它们切分为若干的切片然后将每个切片发送给光栅线程（raster thread），光栅线程会光栅化每个切片并且把它们存储在GPU的内存中。</p>
 <blockquote>
-<p><img src="/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%85%89%E6%A0%85%E5%8C%96-%E5%88%86%E5%B1%823.jpg" srcset="/img/loading.gif" lazyload alt="光栅化-分层3"></p>
+<p><img src="/2023/02/16/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%85%89%E6%A0%85%E5%8C%96-%E5%88%86%E5%B1%823.jpg" srcset="/img/loading.gif" lazyload alt="光栅化-分层3"></p>
 </blockquote>
 <p>合成器进程可以对不同的光栅线程进行优先级排序，以便优先对视口内（或附近）的内容进行光栅化。</p>
 <h3 id="3-合成"><a href="#3-合成" class="headerlink" title="3.  合成"></a>3.  合成</h3><p>对切片进行光栅化后，合成器线程会收集切片信息（draw quads）来构建一个合成帧（compositor frame）。</p>
@@ -349,7 +349,7 @@
 </ul>
 <p>然后通过IPC将合成帧提交给浏览器进程（browser process）。此时 UI 线程或其他渲染器进程也可以添加另外的合成帧，这些合成帧被发送到 GPU 以显示在屏幕上。如果如果出现滚动事件，合成器线程会创建另一个合成帧发送到 GPU 用来更新页面。</p>
 <blockquote>
-<p><img src="/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%85%89%E6%A0%85%E5%8C%96-%E5%90%88%E6%88%90.jpg" srcset="/img/loading.gif" lazyload alt="光栅化-合成"></p>
+<p><img src="/2023/02/16/00Devtools%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/%E5%85%89%E6%A0%85%E5%8C%96-%E5%90%88%E6%88%90.jpg" srcset="/img/loading.gif" lazyload alt="光栅化-合成"></p>
 </blockquote>
 <p>合成的好处在于它无需涉及主线程即可完成。合成器进程不需要等待样式计算（Style calculation）或 JavaScript 执行。这就是为什么<a href="https://link.juejin.cn/?target=https://www.html5rocks.com/en/tutorials/speed/high-performance-animations/">仅通过合成实现动画</a>是最推荐的方式，能取得最好的性能体验。如果需要重新计算布局（layout）或绘制（paint）则必须涉及到主线程。</p>
 

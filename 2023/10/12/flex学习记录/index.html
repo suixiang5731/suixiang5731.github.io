@@ -23,18 +23,18 @@
 <meta property="og:site_name" content="SxBlog">
 <meta property="og:description" content="今天在做项目的时候遇到一个关于布局的问题, 就是 flex: 1; 我一直以为 flex: 1; 代表的是 flex: auto; 后来发现结果并不是这样, 所以写一篇博客来讲解一下 flex: 1; 代表什么 代码第一版123456789101112131415&lt;div class&#x3D;&quot;container&quot;&gt;  &lt;div class&#x3D;&quot;div&amp;quo">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://suixiang5731.github.io/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-8cc589398d0576b41e365af19b9e9325_r.jpg">
-<meta property="og:image" content="https://suixiang5731.github.io/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-c52fab6fae7537b9223b28d786bb4d3c_r.jpg">
-<meta property="og:image" content="https://suixiang5731.github.io/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-c1a91d2970defbd29c6fd9e897f9414c_r.jpg">
-<meta property="og:image" content="https://suixiang5731.github.io/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-679d29029cd5ac3996ac7f278e6d411d_r.jpg">
-<meta property="og:image" content="https://suixiang5731.github.io/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-533796bc14adcb110e2bc96e60330b55_r.jpg">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-8cc589398d0576b41e365af19b9e9325_r.jpg">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-c52fab6fae7537b9223b28d786bb4d3c_r.jpg">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-c1a91d2970defbd29c6fd9e897f9414c_r.jpg">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-679d29029cd5ac3996ac7f278e6d411d_r.jpg">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-533796bc14adcb110e2bc96e60330b55_r.jpg">
 <meta property="article:published_time" content="2023-10-12T07:18:00.000Z">
 <meta property="article:modified_time" content="2024-04-15T01:49:19.131Z">
 <meta property="article:author" content="suixiang5731">
 <meta property="article:tag" content="css3">
 <meta property="article:tag" content="flex">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://suixiang5731.github.io/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-8cc589398d0576b41e365af19b9e9325_r.jpg">
+<meta name="twitter:image" content="https://suixiang5731.github.io/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-8cc589398d0576b41e365af19b9e9325_r.jpg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -286,7 +286,7 @@
                 <p>今天在做项目的时候遇到一个关于布局的问题, 就是 <strong>flex: 1;</strong> 我一直以为 flex: 1; 代表的是 <strong>flex: auto;</strong> 后来发现结果并不是这样, 所以写一篇博客来讲解一下 flex: 1; 代表什么</p>
 <h2 id="代码第一版"><a href="#代码第一版" class="headerlink" title="代码第一版"></a>代码第一版</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;container&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;div&quot;</span>&gt;</span>我是一个div<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;div&quot;</span>&gt;</span>我是一个很多字div<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;div&quot;</span>&gt;</span>我是一个更多字而且第三个div<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css"></span><br><span class="language-css"><span class="hljs-selector-class">.container</span>&#123;</span><br><span class="language-css">  <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css">&#125;</span><br><span class="language-css"><span class="hljs-selector-class">.div</span>&#123;</span><br><span class="language-css">  <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid red;</span><br><span class="language-css">  <span class="hljs-attribute">flex</span>: <span class="hljs-number">1</span>;</span><br><span class="language-css">&#125;</span><br><span class="language-css"></span><br><span class="language-css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-8cc589398d0576b41e365af19b9e9325_r.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-8cc589398d0576b41e365af19b9e9325_r.jpg" srcset="/img/loading.gif" lazyload></p>
 <p>利用 <strong>flex: 1; 确实实现了三个不同内容的 div 平分空间, 所以按我以前的想法来说:</strong></p>
 <blockquote>
 <p><strong>flex: 1; &#x3D;&#x3D;&#x3D; flex: 1 1 auto;</strong></p>
@@ -300,21 +300,21 @@
 <h2 id="代码第二版"><a href="#代码第二版" class="headerlink" title="代码第二版"></a>代码第二版</h2><p>上面证实了我以前的想法, flex:1; 就是代表均匀分配元素, 但是我们来改成完整写法看看</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-comment">/* 其他代码没有变化, 沿用上面的 */</span><br><br><span class="hljs-selector-class">.div</span>&#123;<br>  <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid red;<br>  <span class="hljs-attribute">flex</span>: <span class="hljs-number">1</span> <span class="hljs-number">1</span> auto; <br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p><img src="/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-c52fab6fae7537b9223b28d786bb4d3c_r.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-c52fab6fae7537b9223b28d786bb4d3c_r.jpg" srcset="/img/loading.gif" lazyload></p>
 <p>加入原来以为正确的完整代码后可以看到三个元素没有<strong>均分</strong>, 所以可以推出:</p>
 <blockquote>
 <p><strong>flex: 1; !&#x3D;&#x3D; flex: 1 1 auto;</strong></p>
 </blockquote>
 <p><strong>走到这我就一头雾水, 为什么和我以前想的完全不同, 于是我就去参照了 <a target="_blank" rel="noopener" href="https://www.w3.org/TR/css-flexbox-1/#flex-common">w3c</a></strong> <strong>对于 flex 的解释, 官方明确指, flex 最后一个参数为 0, 见下图</strong></p>
-<p><img src="/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-c1a91d2970defbd29c6fd9e897f9414c_r.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-c1a91d2970defbd29c6fd9e897f9414c_r.jpg" srcset="/img/loading.gif" lazyload></p>
 <p><strong>所以:</strong></p>
 <ul>
 <li><strong>flex: 1; &#x3D;&#x3D;&#x3D; flex: 1 1 0;</strong></li>
 </ul>
 <p>但是在 chrome 浏览器上设置 flex: 1 1 0; 时, 它会自动加一个单位 px</p>
-<p><img src="/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-679d29029cd5ac3996ac7f278e6d411d_r.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-679d29029cd5ac3996ac7f278e6d411d_r.jpg" srcset="/img/loading.gif" lazyload></p>
 <p>而设置 flex: 1; 时, 它会自动加一个 %, 看来他们解析到浏览器的时候必须带一个单位</p>
-<p><img src="/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-533796bc14adcb110e2bc96e60330b55_r.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2023/10/12/flex%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/v2-533796bc14adcb110e2bc96e60330b55_r.jpg" srcset="/img/loading.gif" lazyload></p>
 <p>于是我就又做了几个实验, 改了一下 flex-basis 的参数, <strong>得出以下结论</strong></p>
 <ul>
 <li><strong>flex: 1; &#x3D;&#x3D;&#x3D; flex: 1 1 任意数字+任意长度单位;</strong></li>

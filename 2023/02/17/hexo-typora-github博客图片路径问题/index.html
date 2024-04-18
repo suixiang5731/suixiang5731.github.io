@@ -23,10 +23,10 @@
 <meta property="og:site_name" content="SxBlog">
 <meta property="og:description" content="首先引用 hexo-renderer-marked 包 1npm install hexo-renderer-marked --save  修改博客项目根目录下_config.yml文件 1234post_asset_folder: truemarked:    prependRoot: true    postAsset: true  开启了之后，图片资源就会自动解析成对应的图片路径。比如：“">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://suixiang5731.github.io/hexo-typora-github%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/webp.webp">
-<meta property="og:image" content="https://suixiang5731.github.io/hexo-typora-github%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/webp-16766246268032.webp">
-<meta property="og:image" content="https://suixiang5731.github.io/hexo-typora-github%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/webp-16766246469994.webp">
-<meta property="og:image" content="https://suixiang5731.github.io/hexo-typora-github%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/webp-16766246706976.webp">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/02/17/hexo-typora-github%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/webp.webp">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/02/17/hexo-typora-github%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/webp-16766246268032.webp">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/02/17/hexo-typora-github%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/webp-16766246469994.webp">
+<meta property="og:image" content="https://suixiang5731.github.io/2023/02/17/hexo-typora-github%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/webp-16766246706976.webp">
 <meta property="article:published_time" content="2023-02-17T08:58:09.000Z">
 <meta property="article:modified_time" content="2024-04-15T01:49:19.134Z">
 <meta property="article:author" content="suixiang5731">
@@ -34,7 +34,7 @@
 <meta property="article:tag" content="typora">
 <meta property="article:tag" content="github">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://suixiang5731.github.io/hexo-typora-github%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/webp.webp">
+<meta name="twitter:image" content="https://suixiang5731.github.io/2023/02/17/hexo-typora-github%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/webp.webp">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -295,19 +295,19 @@
 </ol>
 <p>这种方式，虽然能解决发布之后图片展示的问题，但是不能解决本地typora编辑的问题，例如：有如下的目录结构：</p>
 <blockquote>
-<p><img src="/hexo-typora-github%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/webp.webp" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="/2023/02/17/hexo-typora-github%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/webp.webp" srcset="/img/loading.gif" lazyload alt="img"></p>
 </blockquote>
 <p>编辑hexo-github.md文件，如果写成：</p>
 <blockquote>
-<p><img src="/hexo-typora-github%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/webp-16766246268032.webp" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="/2023/02/17/hexo-typora-github%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/webp-16766246268032.webp" srcset="/img/loading.gif" lazyload alt="img"></p>
 </blockquote>
 <p>这种相对路径之后，能在typora中显示图片，但是在网页上就不能展示图片，如果改成下面这种：</p>
 <blockquote>
-<p><img src="/hexo-typora-github%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/webp-16766246469994.webp" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="/2023/02/17/hexo-typora-github%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/webp-16766246469994.webp" srcset="/img/loading.gif" lazyload alt="img"></p>
 </blockquote>
 <p>能在网页上显示图片，但是在typora中又不能显示，这个时候，我们就通过修改插件 hexo-renderer-marked 的代码，来兼容两方的需求，找到图片路径转换的代码：</p>
 <blockquote>
-<p><img src="/hexo-typora-github%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/webp-16766246706976.webp" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="/2023/02/17/hexo-typora-github%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/webp-16766246706976.webp" srcset="/img/loading.gif" lazyload alt="img"></p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js">&gt;<span class="hljs-keyword">if</span> (href.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;/&#x27;</span>) &gt; -<span class="hljs-number">1</span>) &#123;<br>   href = href.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;/&#x27;</span>)[<span class="hljs-number">1</span>];<br>&gt;&#125;<br></code></pre></td></tr></table></figure>
 </blockquote>
 <p>其中红框中的代码就是新加的，这样我们在md文件中，路径写成：<br>hexo-github&#x2F;image-20220423232811690.png 这样，就能同时在typora和网页上进行展示</p>
